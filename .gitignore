@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Mac
+.DS_Store
+
+# Models
+*.pt
+*.pth
+
+# Data
+data/
+datasets/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
