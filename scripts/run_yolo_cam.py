@@ -19,6 +19,7 @@ from pipeline.models import TCNInferencer
 
 # Stage 6 (Decision logic)
 from pipeline.decision import DecisionManager, DecisionLevel
+from pipeline.alert_controller import AlertController
 
 # =========================
 # USER CONFIG (edit here)
@@ -60,6 +61,11 @@ DEBUG_STAGE6_EVERY_N = 1     # print every decision event (set to 5/10 if too sp
 # Print a 1Hz Stage6 heartbeat alongside the [Live] log (recommended for demos)
 STAGE6_HEARTBEAT = True
 # =========================
+
+# Alert controller
+ALERT_ENABLE_CONSOLE = True
+ALERT_ENABLE_SOUND = False
+ALERT_WEBHOOK_URL = None
 
 
 def main():
@@ -149,6 +155,13 @@ def main():
         stale_track_seconds=DECISION_STALE_SEC,
     )
     print("[Stage6] DecisionManager ready")
+    alert_controller = AlertController(
+        enable_console=ALERT_ENABLE_CONSOLE,
+        enable_sound=ALERT_ENABLE_SOUND,
+        webhook_url=ALERT_WEBHOOK_URL,
+        min_repeat_interval_seconds=DECISION_COOLDOWN_SEC,
+    )
+    print("[Alert] AlertController ready")
     if DEBUG_STAGE6:
         print(
             "[Stage6][DBG] enabled "
@@ -306,10 +319,10 @@ def main():
 
                 for ev in events:
                     if ev.level == DecisionLevel.CONFIRMED:
-                        # Replace with your actual alert controller later
-                        print(
-                            f"[ALERT] track={ev.track_id} smooth={ev.smooth_prob:.3f} raw={ev.raw_prob:.3f}",
-                            flush=True
+                        alert_controller.handle_alert(
+                            track_id=ev.track_id,
+                            probability=ev.smooth_prob,
+                            timestamp=ev.ts,
                         )
 
             # Display
@@ -382,6 +395,7 @@ def main():
     finally:
         # Clean shutdown
         stop_event.set()
+        alert_controller.shutdown(timeout=1.0)
         worker_thread.join(timeout=1.0)
         listener_thread.join(timeout=1.0)
 
