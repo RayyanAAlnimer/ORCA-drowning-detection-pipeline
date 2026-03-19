@@ -1,0 +1,38 @@
+from __future__ import annotations
+
+from pathlib import Path
+import json
+
+import torch
+
+from pipeline.training.metrics import accuracy, precision, recall, f1
+
+
+def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str = "cpu") -> dict:
+    model.eval()
+    device_obj = torch.device(device)
+    model = model.to(device_obj)
+    preds_all = []
+    targets_all = []
+
+    with torch.no_grad():
+        for x, y in loader:
+            x = x.to(device_obj)
+            y = y.to(device_obj)
+            if model_name == "tcn":
+                preds = torch.sigmoid(model(x.transpose(1, 2)))
+            else:
+                preds = model(x)
+            preds_all.append(preds.cpu())
+            targets_all.append(y.cpu())
+
+    preds = torch.cat(preds_all) if preds_all else torch.empty(0)
+    targets = torch.cat(targets_all) if targets_all else torch.empty(0)
+    return {
+        "accuracy": accuracy(preds, targets),
+        "precision": precision(preds, targets),
+        "recall": recall(preds, targets),
+        "f1": f1(preds, targets),
+        "predictions": preds.tolist(),
+        "targets": targets.tolist(),
+    }
