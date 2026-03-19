@@ -1,384 +1,370 @@
 # ORCA Drowning Detection Pipeline
 
-## 1. Project Context
+## Overview
 
-This project is a real-time drowning distress detection system built around pose-based temporal analysis. Although the repository originally grew out of a fall-detection codebase, the current goal is different: to detect drowning-related distress behavior in swimming pools by analyzing how a person's pose and motion evolve over time.
+ORCA is a real-time drowning distress detection project built around pose-based temporal analysis.
 
-The main idea is that drowning distress is not a single-frame event. A single image may show a swimmer in an unusual posture, but that alone is not enough to classify distress reliably. Because of that, the pipeline tracks each person over time, stores short windows of observations, converts those windows into model-ready features, and then applies a temporal classifier before making a final decision.
+The repository originally began from a fall-detection structure, but the current objective is different: detect drowning-related distress behavior in swimming pools by tracking each person over time, converting their pose history into temporal features, estimating drowning likelihood with a temporal model, stabilizing predictions with decision logic, and triggering structured alerts.
 
-At a high level, the pipeline works as follows:
+The project now contains two major layers:
 
-Camera or video input -> YOLO pose detection -> multi-object tracking -> sliding-window buffering -> feature extraction -> TCN inference -> decision logic -> alert controller
+- the runtime detection pipeline used for live and video-based inference
+- the formal machine learning development pipeline used for dataset building, training, evaluation, calibration, and experimentation
 
-The live webcam pipeline runs through `scripts/run_yolo_cam.py`, and the file-based video pipeline runs through `scripts/run_yolo_track.py`.
+The runtime pipeline has been preserved while the ML development pipeline has been added around it in a modular way.
 
-## 2. Why the System Is Structured in Stages
+## Core Runtime Pipeline
 
-The code is organized as a staged pipeline because each part has a clear and different responsibility.
+The current runtime flow is:
 
-- Early stages are responsible for seeing people and keeping their identities stable over time.
-- Middle stages are responsible for transforming raw detections into temporal model input.
-- Later stages are responsible for classification, stabilizing predictions, and triggering alerts.
+Camera or video input -> YOLO pose detection -> multi-object tracking -> per-track buffering -> pose feature extraction -> TCN inference -> decision logic -> alert controller
 
-This design keeps the system modular, easier to debug, and easier to extend later for trained drowning models, hardware alarms, and deployment-specific integrations.
+The main runtime entry points are:
 
-## 3. Stage 1 and Stage 2: Pose Detection and Multi-Object Tracking
+- `scripts/run_yolo_cam.py` for live webcam inference
+- `scripts/run_yolo_track.py` for video-file inference
 
-### Purpose
+## Runtime Stages
 
-Stage 1 and Stage 2 are effectively combined through the YOLO pose tracking pipeline. Their job is to process each incoming frame and identify all visible people while also assigning each detected person a stable track ID.
+### Stage 1 and Stage 2: Pose Detection and Tracking
 
-### Main Code
+Files:
 
 - `pipeline/tracker.py`
 - `scripts/run_yolo_cam.py`
 - `scripts/run_yolo_track.py`
 
-### Input
+Purpose:
 
-A single image frame from either:
+- run YOLO pose estimation on each frame
+- assign stable person IDs across frames
+- output bounding boxes, keypoints, confidences, and track IDs
 
-- a live webcam in `run_yolo_cam.py`, or
-- a video file in `run_yolo_track.py`
+### Stage 3: Per-Track Temporal Buffering
 
-### Processing
-
-The `PoseTracker` class wraps Ultralytics YOLO pose tracking. For each frame, YOLO produces:
-
-- bounding boxes
-- keypoints
-- detection confidences
-- persistent tracking IDs
-
-The use of `persist=True` is important because it allows the same person to keep the same identity across frames.
-
-### Output
-
-For each detected person in a frame, the pipeline extracts:
-
-- `track_id`
-- `bbox_xyxy`
-- `conf`
-- `kpts_xyc`
-- `frame_idx`
-
-Those observations are then passed to the buffering stage.
-
-## 4. Stage 3: Sliding-Window Buffering
-
-### Purpose
-
-Stage 3 is responsible for temporal memory. A temporal model cannot classify drowning distress from one frame alone, so the system needs a rolling history for each tracked person.
-
-### Main Code
+Files:
 
 - `pipeline/buffering/track_buffer.py`
 
-### Input
+Purpose:
 
-A list of observations for the current frame. Each observation contains:
+- maintain sliding windows of observations for each tracked person
+- emit ready temporal sequences only after enough history has accumulated
 
-- track ID
-- frame index
-- bounding box
-- confidence
-- pose keypoints
+### Stage 4: Pose Feature Extraction
 
-### Processing
-
-`TrackBufferManager` keeps a separate rolling buffer for each active `track_id`. Each incoming observation is converted into a lightweight `FrameFeature` object and appended to the correct per-track deque.
-
-The buffer manager also:
-
-- drops stale tracks after a configured age-out period
-- emits only full windows once enough frames have accumulated
-
-### Output
-
-A dictionary of ready temporal sequences:
-
-- key: `track_id`
-- value: list of buffered `FrameFeature` objects
-
-Only tracks with a fully populated window are forwarded to Stage 4.
-
-## 5. Stage 4: Pose Feature Extraction
-
-### Purpose
-
-Stage 4 converts raw buffered pose observations into fixed-size numerical features suitable for temporal inference.
-
-### Main Code
+Files:
 
 - `pipeline/featurization/pose_features.py`
 
-### Input
+Purpose:
 
-A buffered sequence for one person, containing pose, box, and confidence information across multiple timesteps.
+- convert buffered pose history into model-ready feature tensors
+- normalize pose relative to body position and scale
+- optionally include box geometry, confidence, and simple velocity features
 
-### Processing
+### Stage 5: Temporal Inference
 
-`PoseFeatureExtractor` performs several steps:
-
-- safely reads pose keypoints even if some are missing or malformed
-- converts the bounding box to center-width-height form
-- optionally normalizes by frame size
-- chooses a person-centered coordinate system using hips and shoulders when available
-- normalizes pose coordinates relative to that center and scale
-- appends optional auxiliary features such as:
-  - bounding box geometry
-  - detection confidence
-  - mean keypoint confidence
-  - simple velocity from bbox center displacement
-
-This makes the features more robust to where the person appears in the image and emphasizes body motion and posture instead of absolute image position.
-
-### Output
-
-A `FeatureBatch` object containing:
-
-- `X`: a feature matrix of shape `(T, D)`
-- `mask`: a timestep mask
-- `meta`: debug metadata
-
-This `X` tensor is the direct input to Stage 5.
-
-## 6. Stage 5: Temporal Inference with the TCN
-
-### Purpose
-
-Stage 5 estimates how likely the observed sequence corresponds to drowning distress.
-
-### Main Code
+Files:
 
 - `pipeline/models/tcn.py`
 - `pipeline/models/inference.py`
 
-### Input
+Purpose:
 
-A feature tensor `X` of shape `(T, D)` representing the motion history of one tracked person.
+- run temporal inference on feature sequences
+- output drowning-distress probabilities per tracked person
 
-### Processing
+Current note:
 
-The TCN inference wrapper converts the features into the shape expected by the temporal model and runs a forward pass through a causal Temporal Convolutional Network.
+- the runtime inference path is implemented
+- trained drowning-specific weights are not yet fully integrated
+- current probabilities should still be treated as placeholders until training is completed
 
-The causal design matters because the model only uses current and past timesteps. That makes it suitable for real-time use.
+### Stage 6: Decision Logic
 
-In both `run_yolo_cam.py` and the updated `run_yolo_track.py`, Stage 5 runs through a background worker thread. The main loop pushes feature windows into an inference queue, and the worker returns probabilities through a result queue.
-
-This keeps inference from blocking the rest of the pipeline.
-
-### Output
-
-A probability value per tracked person representing the estimated likelihood of drowning distress.
-
-### Current State
-
-The Stage 5 path is fully implemented, but the model has not yet been trained for the drowning task. That means the architecture is ready, but the probabilities are still placeholders until trained weights are integrated.
-
-## 7. Stage 6: Decision Logic
-
-### Purpose
-
-Raw model probabilities should not directly trigger alarms because they can fluctuate. Stage 6 stabilizes the model output and turns it into a more reliable behavioral state.
-
-### Main Code
+Files:
 
 - `pipeline/decision.py`
 
-### Input
+Purpose:
 
-A batch of per-track probabilities produced by Stage 5.
+- smooth noisy probabilities with EMA
+- apply hysteresis thresholds
+- enforce hold time and cooldown behavior
+- emit stable decision states: `normal`, `possible`, `confirmed`
 
-### Processing
+### Alert Layer
 
-`DecisionManager` applies several pieces of real-time logic:
-
-- exponential moving average smoothing
-- hysteresis thresholds
-- hold-time requirements
-- cooldown handling
-- stale-track cleanup
-
-The decision states are:
-
-- `normal`
-- `possible`
-- `confirmed`
-
-A person only reaches `confirmed` if the model score stays high enough for long enough according to the configured thresholds and hold time.
-
-### Output
-
-A list of `DecisionEvent` objects describing state transitions per track.
-
-This is the point where the system moves from "model output" to "actionable event."
-
-## 8. Alert Controller
-
-### Purpose
-
-The alert controller replaces the older placeholder alert print with a structured, extensible alert system.
-
-### Main Code
+Files:
 
 - `pipeline/alert_controller.py`
 
-### Input
+Purpose:
 
-Confirmed Stage 6 events, passed as:
+- receive confirmed Stage 6 events
+- dispatch lightweight alerts asynchronously
+- support console alerts, optional sound, optional webhook, and future hardware integrations
 
-- `track_id`
-- `probability`
-- `timestamp`
+## Formal Development Pipeline
 
-### Processing
+A formal ML development pipeline has been added so the project can support structured dataset creation, training, evaluation, calibration, and model comparison without changing the runtime detection architecture.
 
-The `AlertController` accepts alerts through `handle_alert(track_id, probability, timestamp)`.
+This new layer supports:
 
-To keep the main pipeline lightweight, `handle_alert()` does not perform heavy work directly. Instead, it:
+- dataset building from tracked sequences
+- training multiple temporal model families
+- evaluation on processed datasets
+- decision-threshold calibration
+- config-driven experimentation
+- preservation of older reference training code in a dedicated legacy area
 
-- checks duplicate suppression timing
-- queues the alert for asynchronous handling
+## Project Directory
 
-A background worker thread then dispatches the alert.
+```text
+ORCA-drowning-detection-pipeline/
+├── README.md
+├── .gitignore
+├── yolov8n-pose.pt
+├── demo.gif
+│
+├── docs/
+│   ├── pipeline_explanation.md
+│   └── pipeline_explanation.html
+│
+├── configs/
+│   ├── model/
+│   │   ├── tcn.yaml
+│   │   ├── cnn.yaml
+│   │   └── tsm.yaml
+│   ├── training/
+│   │   └── default.yaml
+│   └── decision/
+│       └── thresholds.yaml
+│
+├── data/
+│   ├── raw/
+│   ├── interim/
+│   ├── processed/
+│   └── samples/
+│
+├── models/
+│   ├── checkpoints/
+│   └── exported/
+│
+├── outputs/
+│   └── logs/
+│
+├── experiments/
+│   ├── tcn/
+│   ├── cnn/
+│   └── tsm/
+│
+├── legacy/
+│   ├── __init__.py
+│   ├── dataset.py
+│   ├── loss.py
+│   ├── network.py
+│   ├── train_tcn_classifier_1.py
+│   ├── train_tcn_transformer_1.py
+│   ├── train_transformer_classifier_1.py
+│   └── stage1_pose-demo.py
+│
+├── pipeline/
+│   ├── __init__.py
+│   ├── tracker.py
+│   ├── pose_estimator.py
+│   ├── visualizer.py
+│   ├── decision.py
+│   ├── alert_controller.py
+│   │
+│   ├── buffering/
+│   │   ├── __init__.py
+│   │   └── track_buffer.py
+│   │
+│   ├── featurization/
+│   │   ├── __init__.py
+│   │   └── pose_features.py
+│   │
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── inference.py
+│   │   ├── tcn.py
+│   │   ├── registry.py
+│   │   ├── cnn.py
+│   │   └── tsm.py
+│   │
+│   ├── training/
+│   │   ├── __init__.py
+│   │   ├── dataset_builder.py
+│   │   ├── dataloader.py
+│   │   ├── trainer.py
+│   │   ├── losses.py
+│   │   └── metrics.py
+│   │
+│   ├── evaluation/
+│   │   ├── __init__.py
+│   │   ├── evaluator.py
+│   │   └── calibration.py
+│   │
+│   └── utils/
+│       ├── __init__.py
+│       └── config.py
+│
+└── scripts/
+    ├── run_yolo_cam.py
+    ├── run_yolo_track.py
+    ├── run_yolo_only.py
+    ├── build_dataset.py
+    ├── train_model.py
+    ├── evaluate_model.py
+    └── calibrate_decision.py
+```
 
-### Current Alert Outputs
+## New Development-Pipeline Components
 
-The controller currently supports:
+### `configs/`
 
-- console alert logging
-- optional sound alarm
-- optional webhook trigger
-- future custom handlers for embedded or hardware integrations
+Stores YAML configuration files.
 
-### Why This Design Matters
+- `configs/model/tcn.yaml` contains the current TCN model configuration
+- `configs/model/cnn.yaml` and `configs/model/tsm.yaml` currently exist as placeholders for future comparative experiments
+- `configs/training/default.yaml` contains baseline training settings
+- `configs/decision/thresholds.yaml` contains decision-threshold defaults
 
-This keeps alerting modular and deployment-friendly. The same detection pipeline can later support:
+### `data/`
 
-- a local siren
-- a remote API notification
-- an Arduino-triggered alarm
-- a Jetson or GPIO-based hardware response
+Organizes data across development stages.
 
-without redesigning the detection logic.
+- `data/raw/` for original inputs
+- `data/interim/` for temporary intermediate artifacts
+- `data/processed/` for model-ready sequence tensors
+- `data/samples/` for smaller curated subsets
 
-## 9. How the End-to-End Flow Works
+### `models/`
 
-The full system flow is:
+Stores trained artifacts.
 
-1. A frame enters the system from a camera or a video file.
-2. YOLO pose tracking detects people and assigns track IDs.
-3. Each tracked person's observations are added to a rolling buffer.
-4. Full temporal windows are converted into model-ready features.
-5. The TCN scores those windows and outputs drowning probabilities.
-6. The decision layer smooths and stabilizes those probabilities.
-7. Confirmed events are passed to the alert controller.
-8. Alerts are dispatched while the video output continues to be annotated and written.
+- `models/checkpoints/` for saved checkpoints during training
+- `models/exported/` for deployment-ready or converted model outputs later
 
-This means the system is not just a classifier. It is a real-time perception and response pipeline.
+### `pipeline/utils/`
 
-## 10. Live Pipeline vs File-Based Pipeline
+Utility layer.
 
-### `scripts/run_yolo_cam.py`
+- `pipeline/utils/config.py` implements `load_config(path: str) -> dict` using `yaml.safe_load`
 
-This is the live webcam runner.
+### `pipeline/models/registry.py`
 
-It is designed for real-time streaming and now includes:
+Adds model registration so different temporal models can be selected cleanly from scripts.
 
-- Stage 1 to Stage 6
-- background Stage 5 inference
-- decision overlays
-- alert controller integration
+### `pipeline/models/cnn.py`
 
-### `scripts/run_yolo_track.py`
+Adds `CNNTemporalClassifier`, a simple Conv2D-based temporal baseline.
 
-This is the file-based video runner.
+### `pipeline/models/tsm.py`
 
-It now mirrors the webcam runner much more closely and includes:
+Adds `TSMTemporalClassifier`, a simplified temporal-shift-style experimental model.
 
-- the same stage-based pipeline
-- queue-based Stage 5 inference
-- Stage 6 decision logic
-- alert controller integration
-- annotated output video writing
+### `pipeline/training/`
 
-This runner will be especially useful once trained drowning weights are available because it will let the system process recorded videos and generate both annotated outputs and structured alerts.
+Contains reusable training code.
 
-## 11. Current System Status
+- `dataset_builder.py` builds processed `(T, D)` sequence datasets from tracked sequences
+- `dataloader.py` loads saved `.pt` samples for PyTorch training
+- `trainer.py` runs training loops and saves best checkpoints
+- `losses.py` defines binary cross-entropy loss
+- `metrics.py` defines accuracy, precision, recall, and F1
 
-The pipeline is structurally complete and functioning end-to-end.
+### `pipeline/evaluation/`
 
-What already exists:
+Contains reusable evaluation and calibration code.
 
-- YOLO pose detection
-- tracking
-- buffering
-- feature extraction
-- TCN inference wrapper
-- decision logic
-- alert controller
-- live and file-based runners
+- `evaluator.py` evaluates trained models and returns metrics plus predictions
+- `calibration.py` sweeps thresholds and proposes decision parameters based on evaluation outputs
 
-What is not complete yet:
+### `scripts/build_dataset.py`
 
-- trained drowning-specific TCN weights
-- fully validated drowning behavior dataset integration
-- production hardware alert deployment
+Builds processed datasets by reusing the runtime tracker, buffer manager, and feature extractor on recorded videos.
 
-So at this stage, the architecture is in place, but model intelligence still depends on the upcoming training process.
+### `scripts/train_model.py`
 
-## 12. Future Additions
+Trains a temporal model with:
 
-Based on the current development direction, the next major additions are expected to be:
+- `--model tcn`
+- `--model cnn`
+- `--model tsm`
 
-### 12.1 Training the TCN on Drowning Data
+It loads configs, reads processed datasets, and saves checkpoints and metrics.
 
-The most important next step is to train the temporal model on drowning distress sequences, including synthetic data already generated for that purpose.
+### `scripts/evaluate_model.py`
 
-That will allow Stage 5 to produce meaningful drowning probabilities instead of placeholders.
+Loads a trained checkpoint and evaluates it on processed data.
 
-### 12.2 Integrating Trained Weights
+### `scripts/calibrate_decision.py`
 
-Once training is complete, trained model weights will be connected directly into the existing inference path.
+Reads evaluation outputs and generates decision thresholds for the runtime decision layer.
 
-That should require minimal architectural change because the Stage 5 interface is already prepared for loading checkpoints.
+### `legacy/`
 
-### 12.3 Expanding the Alert System
+Preserves older prototype and training files without deleting them. These are kept for reference and rollback value, while the new development pipeline is organized separately.
 
-The alert controller is intentionally designed for future extensions such as:
+## Command Targets
 
-- webhook-based external notifications
-- audio alarms
-- GPIO triggers
-- Arduino integrations
-- Jetson-based deployment hooks
+The development pipeline is intended to support the following commands:
 
-### 12.4 Deployment and Threshold Tuning
+```bash
+python scripts/build_dataset.py --video path/to/video.mp4 --label 1
+python scripts/train_model.py --model tcn
+python scripts/train_model.py --model cnn
+python scripts/train_model.py --model tsm
+python scripts/evaluate_model.py --model tcn
+python scripts/calibrate_decision.py
+```
 
-After the model is trained, the decision parameters will likely need tuning based on validation behavior. This includes:
+## What Has Been Preserved
 
-- smoothing strength
-- possible and confirmed thresholds
-- hold time
-- cooldown behavior
+The following runtime files remain the protected inference path and should not be treated as training-pipeline code:
 
-That tuning step will be important for balancing sensitivity and false alarms.
+- `pipeline/tracker.py`
+- `pipeline/buffering/`
+- `pipeline/featurization/`
+- `pipeline/models/tcn.py`
+- `pipeline/models/inference.py`
+- `pipeline/decision.py`
+- `pipeline/alert_controller.py`
+- `scripts/run_yolo_cam.py`
+- `scripts/run_yolo_track.py`
 
-## 13. Final Summary
+The development pipeline extends the repository around these files instead of replacing them.
 
-In summary, this project is a real-time drowning distress detection pipeline built on top of pose estimation and temporal analysis.
+## Current Status
 
-Its strength comes from combining multiple layers of processing:
+What is already in place:
 
-- frame-level human pose estimation
-- identity-aware tracking
-- temporal buffering
-- normalized feature extraction
-- sequence classification with a TCN
-- stabilized decision logic
-- modular alert dispatch
+- real-time runtime pipeline
+- structured alert controller
+- formal development-pipeline directories
+- config system
+- model registry
+- baseline support for TCN, CNN, and TSM experiments
+- dataset-building scripts
+- training, evaluation, and calibration modules
+- preserved legacy branch and legacy files
 
-The codebase is already organized in a way that supports real-time deployment without needing to redesign the architecture later. The next phase is to train the drowning model, integrate real weights, and extend deployment-facing components such as alerting and hardware triggers.
+What still needs real experimentation:
 
-That makes the current system a strong structural foundation for a deployable drowning distress detection solution.
+- building drowning-specific datasets
+- training and validating models on real or synthetic drowning sequences
+- filling in CNN and TSM architecture/config choices more formally
+- calibrating Stage 6 thresholds against real validation results
+- integrating trained weights into the runtime pipeline for actual deployment
+
+## Final Summary
+
+This repository now supports both sides of the project:
+
+- a preserved real-time drowning distress detection runtime pipeline
+- a formal machine learning development pipeline for building, training, evaluating, and calibrating future models
+
+That structure allows collaborators to work on data, model experimentation, evaluation, and deployment preparation without disrupting the live runtime architecture.
