@@ -22,7 +22,7 @@ from pipeline.utils.config import load_config
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Evaluate a trained temporal model.")
-    parser.add_argument("--model", choices=["tcn", "cnn", "tsm"], required=True)
+    parser.add_argument("--model", choices=["tcn", "tsm", "lrcn"], required=True)
     parser.add_argument("--checkpoint", default=None)
     parser.add_argument("--data-dir", default="data/processed")
     parser.add_argument("--model-config", default=None)

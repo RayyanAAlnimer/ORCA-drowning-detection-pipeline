@@ -129,13 +129,12 @@ ORCA-drowning-detection-pipeline/
 ├── demo.gif
 │
 ├── docs/
-│   ├── pipeline_explanation.md
 │   └── pipeline_explanation.html
 │
 ├── configs/
 │   ├── model/
 │   │   ├── tcn.yaml
-│   │   ├── cnn.yaml
+│   │   ├── lrcn.yaml
 │   │   └── tsm.yaml
 │   ├── training/
 │   │   └── default.yaml
@@ -157,7 +156,7 @@ ORCA-drowning-detection-pipeline/
 │
 ├── experiments/
 │   ├── tcn/
-│   ├── cnn/
+│   ├── lrcn/
 │   └── tsm/
 │
 ├── legacy/
@@ -191,7 +190,7 @@ ORCA-drowning-detection-pipeline/
 │   │   ├── inference.py
 │   │   ├── tcn.py
 │   │   ├── registry.py
-│   │   ├── cnn.py
+│   │   ├── lrcn.py
 │   │   └── tsm.py
 │   │
 │   ├── training/
@@ -228,7 +227,8 @@ ORCA-drowning-detection-pipeline/
 Stores YAML configuration files.
 
 - `configs/model/tcn.yaml` contains the current TCN model configuration
-- `configs/model/cnn.yaml` and `configs/model/tsm.yaml` currently exist as placeholders for future comparative experiments
+- `configs/model/lrcn.yaml` defines the future baseline comparison path for LRCN experiments
+- `configs/model/tsm.yaml` defines the future advanced comparison path for TSM experiments
 - `configs/training/default.yaml` contains baseline training settings
 - `configs/decision/thresholds.yaml` contains decision-threshold defaults
 
@@ -258,13 +258,13 @@ Utility layer.
 
 Adds model registration so different temporal models can be selected cleanly from scripts.
 
-### `pipeline/models/cnn.py`
+### `pipeline/models/lrcn.py`
 
-Adds `CNNTemporalClassifier`, a simple Conv2D-based temporal baseline.
+Adds `LRCNTemporalClassifier`, a lightweight placeholder for the future baseline comparison model.
 
 ### `pipeline/models/tsm.py`
 
-Adds `TSMTemporalClassifier`, a simplified temporal-shift-style experimental model.
+Adds `TSMTemporalClassifier`, a simplified temporal-shift-style experimental model for the more advanced comparison track.
 
 ### `pipeline/training/`
 
@@ -292,8 +292,8 @@ Builds processed datasets by reusing the runtime tracker, buffer manager, and fe
 Trains a temporal model with:
 
 - `--model tcn`
-- `--model cnn`
-- `--model tsm`
+- `--model lrcn` for the baseline comparison model
+- `--model tsm` for the advanced comparison model
 
 It loads configs, reads processed datasets, and saves checkpoints and metrics.
 
@@ -316,7 +316,7 @@ The development pipeline is intended to support the following commands:
 ```bash
 python scripts/build_dataset.py --video path/to/video.mp4 --label 1
 python scripts/train_model.py --model tcn
-python scripts/train_model.py --model cnn
+python scripts/train_model.py --model lrcn
 python scripts/train_model.py --model tsm
 python scripts/evaluate_model.py --model tcn
 python scripts/calibrate_decision.py

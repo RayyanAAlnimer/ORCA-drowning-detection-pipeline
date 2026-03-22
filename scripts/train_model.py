@@ -8,7 +8,6 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import argparse
-from pathlib import Path
 
 import torch
 from torch.utils.data import DataLoader, random_split
@@ -21,7 +20,7 @@ from pipeline.utils.config import load_config
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train a temporal model.")
-    parser.add_argument("--model", choices=["tcn", "cnn", "tsm"], required=True)
+    parser.add_argument("--model", choices=["tcn", "tsm", "lrcn"], required=True)
     parser.add_argument("--data-dir", default="data/processed")
     parser.add_argument("--model-config", default=None)
     parser.add_argument("--training-config", default="configs/training/default.yaml")

@@ -132,7 +132,7 @@
       <p>A formal machine learning development pipeline has been added so the repository can support structured experimentation without changing the real-time inference path.</p>
       <ul>
         <li>dataset building from tracked sequences</li>
-        <li>training multiple model types such as TCN, CNN, and TSM</li>
+        <li>training multiple model types such as TCN, LRCN, and TSM</li>
         <li>evaluation on processed datasets</li>
         <li>decision-threshold calibration</li>
         <li>config-driven experimentation</li>
@@ -147,7 +147,7 @@
 ├── configs/
 │   ├── model/
 │   │   ├── tcn.yaml
-│   │   ├── cnn.yaml
+│   │   ├── lrcn.yaml
 │   │   └── tsm.yaml
 │   ├── training/
 │   │   └── default.yaml
@@ -165,7 +165,7 @@
 │   └── logs/
 ├── experiments/
 │   ├── tcn/
-│   ├── cnn/
+│   ├── lrcn/
 │   └── tsm/
 ├── legacy/
 │   ├── dataset.py
@@ -185,7 +185,7 @@
 │   │   ├── tcn.py
 │   │   ├── inference.py
 │   │   ├── registry.py
-│   │   ├── cnn.py
+│   │   ├── lrcn.py
 │   │   └── tsm.py
 │   ├── training/
 │   ├── evaluation/
@@ -202,12 +202,12 @@
       <ul>
         <li><code>pipeline/utils/config.py</code> loads YAML configuration files.</li>
         <li><code>pipeline/models/registry.py</code> provides model registration for configurable training.</li>
-        <li><code>pipeline/models/cnn.py</code> adds a simple CNN temporal baseline.</li>
-        <li><code>pipeline/models/tsm.py</code> adds a simplified temporal-shift-based model.</li>
+        <li><code>pipeline/models/lrcn.py</code> adds a lightweight placeholder LRCN model for the future baseline comparison track.</li>
+        <li><code>pipeline/models/tsm.py</code> adds the more advanced temporal-shift-based comparison model.</li>
         <li><code>pipeline/training/</code> contains dataset-building, dataloading, losses, metrics, and training logic.</li>
         <li><code>pipeline/evaluation/</code> contains model evaluation and decision-calibration logic.</li>
         <li><code>scripts/build_dataset.py</code> builds processed samples from tracked video sequences.</li>
-        <li><code>scripts/train_model.py</code> trains <code>tcn</code>, <code>cnn</code>, or <code>tsm</code> models.</li>
+        <li><code>scripts/train_model.py</code> trains <code>tcn</code>, the baseline comparison <code>lrcn</code>, or the advanced comparison <code>tsm</code> models.</li>
         <li><code>scripts/evaluate_model.py</code> evaluates trained checkpoints.</li>
         <li><code>scripts/calibrate_decision.py</code> sweeps thresholds and produces updated decision settings.</li>
       </ul>
