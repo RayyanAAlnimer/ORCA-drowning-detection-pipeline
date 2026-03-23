@@ -8,7 +8,7 @@ from .registry import register_model
 
 @register_model("tsm")
 class TSMTemporalClassifier(nn.Module):
-    def __init__(self, input_dim: int = 42, hidden_dim: int = 64):
+    def __init__(self, input_dim: int = 50, hidden_dim: int = 64):
         super().__init__()
         self.input_proj = nn.Linear(input_dim, hidden_dim)
         self.temporal_conv = nn.Conv1d(hidden_dim, hidden_dim, kernel_size=3, padding=1)

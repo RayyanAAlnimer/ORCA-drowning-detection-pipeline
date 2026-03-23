@@ -61,7 +61,7 @@ class TemporalBlock(nn.Module):
 
 class TCNBinaryClassifier(nn.Module):
     """
-    Input:  x of shape (B, C, T) where C = feature_dim (e.g. 42), T = window length (e.g. 60)
+    Input:  x of shape (B, C, T) where C = feature_dim (e.g. 50), T = window length (e.g. 60)
     Output: logits of shape (B,)  (apply sigmoid for probability)
     """
     def __init__(

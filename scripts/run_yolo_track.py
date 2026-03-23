@@ -30,7 +30,7 @@ AGE_OUT_SECONDS = 1.0     # Track buffer persistence after disappearance
 TCN_WEIGHTS_PATH = None         # <-- Set to a .pt checkpoint once you have trained weights
 INFER_EVERY_N_FRAMES = 5        # <-- Run TCN every N frames
 MAX_TRACKS_PER_INFER = 2        # <-- Limit how many tracks to score each infer step
-FEATURE_DIM = 42                # <-- update if Stage 4 features change
+FEATURE_DIM = 50                # <-- 42 original features + 8 drowning-specific behavioral features
 
 # ------------------------------
 # Stage 6 (decision)

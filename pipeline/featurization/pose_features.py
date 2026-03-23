@@ -133,13 +133,20 @@ class PoseFeatureExtractor:
         feats = []
         mask = np.ones((T,), dtype=np.float32)
 
-        prev_bbox = None  # for velocity
+        prev_bbox = None
+        prev_prev_bbox = None
+        recent_speeds: List[float] = []
+        stationary_count = 0
 
         for t, ff in enumerate(seq):
             bbox = self._bbox_to_cxcywh(ff.bbox_xyxy)
             xy, kc = self._safe_kpts_xy(getattr(ff, "kpts_xyc", None))
 
             center, scale = self._choose_center_and_scale(xy, bbox)
+            lh, rh = xy[L_HIP], xy[R_HIP]
+            ls, rs = xy[L_SHOULDER], xy[R_SHOULDER]
+            has_hips = not (np.all(lh == 0) or np.all(rh == 0))
+            has_shoulders = not (np.all(ls == 0) or np.all(rs == 0))
 
             # Normalize pose: (x,y)-> (x-center)/scale
             xy_norm = (xy - center[None, :]) / scale  # (K,2)
@@ -163,9 +170,77 @@ class PoseFeatureExtractor:
                 else:
                     vel = (bbox[:2] - prev_bbox[:2]).astype(np.float32)  # Δcx, Δcy
                 f_parts.append(vel)
-                prev_bbox = bbox
+            else:
+                vel = np.zeros((2,), dtype=np.float32)
+
+            # Speed captures motion intensity; distress can appear as low or erratic motion.
+            speed = float(np.linalg.norm(vel))
+
+            # Acceleration captures sudden starts/stops or bursts in motion.
+            if prev_bbox is not None and prev_prev_bbox is not None:
+                prev_vel = (prev_bbox[:2] - prev_prev_bbox[:2]).astype(np.float32)
+                accel = float(np.linalg.norm(vel - prev_vel))
+            else:
+                accel = 0.0
+
+            recent_speeds.append(speed)
+            if len(recent_speeds) > 5:
+                recent_speeds.pop(0)
+
+            # Motion variance summarizes short-term movement stability or chaos.
+            motion_var = float(np.var(recent_speeds)) if len(recent_speeds) > 1 else 0.0
+
+            # Vertical velocity highlights bobbing or unstable up/down movement in water.
+            vy = float(vel[1])
+
+            # Area change approximates submersion cues as the visible body shrinks or grows.
+            area = float(bbox[2] * bbox[3])
+            if prev_bbox is not None:
+                prev_area = float(prev_bbox[2] * prev_bbox[3])
+                area_change = area - prev_area
+            else:
+                area_change = 0.0
+
+            # Visibility ratio tracks partial disappearance when keypoints drop out.
+            visible_kpts = int(np.sum(kc > 0.2))
+            visibility_ratio = float(visible_kpts / float(self.K))
+
+            # Body angle estimates torso orientation using shoulders and hips.
+            if has_shoulders and has_hips:
+                mid_sh = 0.5 * (ls + rs)
+                mid_hip = 0.5 * (lh + rh)
+                dx = float(mid_sh[0] - mid_hip[0])
+                dy = float(mid_sh[1] - mid_hip[1])
+                body_angle = float(np.arctan2(dy, dx))
+            else:
+                body_angle = 0.0
+
+            # Stationary duration counts consecutive low-motion frames.
+            if speed < 0.01:
+                stationary_count += 1
+            else:
+                stationary_count = 0
+            stationary_duration = float(stationary_count)
+
+            f_parts.append(
+                np.array(
+                    [
+                        speed,
+                        accel,
+                        motion_var,
+                        vy,
+                        area_change,
+                        visibility_ratio,
+                        body_angle,
+                        stationary_duration,
+                    ],
+                    dtype=np.float32,
+                )
+            )
 
             feats.append(np.concatenate(f_parts, axis=0))
+            prev_prev_bbox = prev_bbox
+            prev_bbox = bbox
 
         X = np.stack(feats, axis=0).astype(np.float32)  # (T, D)
 

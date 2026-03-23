@@ -139,7 +139,7 @@ def main():
     # ----------------------------
     # Stage 5: TCN inference (background)
     # ----------------------------
-    FEATURE_DIM = 42  # <-- update if Stage 4 features change
+    FEATURE_DIM = 50  # <-- 42 original features + 8 drowning-specific behavioral features
     tcn = TCNInferencer(feature_dim=FEATURE_DIM, weights_path=TCN_WEIGHTS_PATH)
     print(f"[Stage5] TCNInferencer ready (device={tcn.device}, weights={TCN_WEIGHTS_PATH})")
 

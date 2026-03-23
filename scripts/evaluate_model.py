@@ -33,12 +33,12 @@ def parse_args() -> argparse.Namespace:
 def build_model(model_name: str, model_cfg: dict):
     if model_name == "tcn":
         return TCNBinaryClassifier(
-            in_channels=int(model_cfg.get("input_dim", 42)),
+            in_channels=int(model_cfg.get("input_dim", 50)),
             channels=list(model_cfg.get("num_channels", [64, 64, 128])),
             kernel_size=int(model_cfg.get("kernel_size", 3)),
             dropout=float(model_cfg.get("dropout", 0.2)),
         )
-    return MODEL_REGISTRY[model_name](input_dim=int(model_cfg.get("input_dim", 42)))
+    return MODEL_REGISTRY[model_name](input_dim=int(model_cfg.get("input_dim", 50)))
 
 
 def main() -> None:

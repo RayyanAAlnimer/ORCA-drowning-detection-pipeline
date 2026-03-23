@@ -14,7 +14,7 @@ class LRCNTemporalClassifier(nn.Module):
     the other experimental models without affecting the runtime inference path.
     """
 
-    def __init__(self, input_dim: int = 42, hidden_dim: int = 64, num_layers: int = 1):
+    def __init__(self, input_dim: int = 50, hidden_dim: int = 64, num_layers: int = 1):
         super().__init__()
         self.frame_encoder = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
