@@ -1,0 +1,4 @@
+input_dim: 50
+hidden_dim: 64
+num_blocks: 2
+fold_div: 8
