@@ -36,7 +36,8 @@ def build_model(model_name: str, model_cfg: dict):
             dropout=float(model_cfg.get("dropout", 0.2)),
         )
     model_cls = MODEL_REGISTRY[model_name]
-    return model_cls(input_dim=int(model_cfg.get("input_dim", 50)))
+    kwargs = {k: v for k, v in model_cfg.items() if k != "name"}
+    return model_cls(**kwargs)
 
 
 def main() -> None:

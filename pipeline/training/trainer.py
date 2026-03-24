@@ -13,14 +13,18 @@ from .metrics import accuracy, precision, recall, f1
 
 def _forward(model_name: str, model: torch.nn.Module, x: torch.Tensor) -> torch.Tensor:
     if model_name == "tcn":
-        logits = model(x.transpose(1, 2))
-        return torch.sigmoid(logits)
-    return model(x)
+        return model(x.transpose(1, 2))
+    logits = model(x)
+    return logits.squeeze(-1) if logits.ndim > 1 else logits
+
+
+def _probs_from_logits(logits: torch.Tensor) -> torch.Tensor:
+    return torch.sigmoid(logits)
 
 
 def _evaluate(model_name: str, model: torch.nn.Module, loader, device: torch.device) -> dict[str, float]:
     model.eval()
-    all_preds = []
+    all_probs = []
     all_targets = []
     loss_fn = build_loss()
     total_loss = 0.0
@@ -30,15 +34,16 @@ def _evaluate(model_name: str, model: torch.nn.Module, loader, device: torch.dev
         for x, y in loader:
             x = x.to(device)
             y = y.to(device)
-            preds = _forward(model_name, model, x)
-            loss = loss_fn(preds, y)
+            logits = _forward(model_name, model, x)
+            loss = loss_fn(logits, y)
+            probs = _probs_from_logits(logits)
             batch_size = y.shape[0]
             total_loss += float(loss.item()) * batch_size
             total_items += batch_size
-            all_preds.append(preds.cpu())
+            all_probs.append(probs.cpu())
             all_targets.append(y.cpu())
 
-    preds = torch.cat(all_preds) if all_preds else torch.empty(0)
+    preds = torch.cat(all_probs) if all_probs else torch.empty(0)
     targets = torch.cat(all_targets) if all_targets else torch.empty(0)
     return {
         "loss": (total_loss / total_items) if total_items else 0.0,
@@ -80,8 +85,8 @@ def train_model(
         for x, y in train_loader:
             x = x.to(device)
             y = y.to(device)
-            preds = _forward(model_name, model, x)
-            loss = loss_fn(preds, y)
+            logits = _forward(model_name, model, x)
+            loss = loss_fn(logits, y)
 
             optimizer.zero_grad()
             loss.backward()
