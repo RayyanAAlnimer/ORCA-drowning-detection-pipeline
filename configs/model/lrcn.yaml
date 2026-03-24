@@ -1,0 +1,5 @@
+input_dim: 50
+hidden_dim: 64
+num_layers: 1
+dropout: 0.1
+pooling: "last"
