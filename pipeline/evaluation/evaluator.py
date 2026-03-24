@@ -20,9 +20,11 @@ def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str 
             x = x.to(device_obj)
             y = y.to(device_obj)
             if model_name == "tcn":
-                preds = torch.sigmoid(model(x.transpose(1, 2)))
+                logits = model(x.transpose(1, 2))
             else:
-                preds = model(x)
+                logits = model(x)
+            logits = logits.squeeze(-1) if logits.ndim > 1 else logits
+            preds = torch.sigmoid(logits)
             preds_all.append(preds.cpu())
             targets_all.append(y.cpu())
 

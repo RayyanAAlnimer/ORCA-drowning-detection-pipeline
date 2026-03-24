@@ -38,7 +38,8 @@ def build_model(model_name: str, model_cfg: dict):
             kernel_size=int(model_cfg.get("kernel_size", 3)),
             dropout=float(model_cfg.get("dropout", 0.2)),
         )
-    return MODEL_REGISTRY[model_name](input_dim=int(model_cfg.get("input_dim", 50)))
+    kwargs = {k: v for k, v in model_cfg.items() if k != "name"}
+    return MODEL_REGISTRY[model_name](**kwargs)
 
 
 def main() -> None:
