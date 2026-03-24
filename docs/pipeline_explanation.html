@@ -114,7 +114,7 @@
 
       <h3>Stage 4: Pose Feature Extraction</h3>
       <p><strong>Main file:</strong> <code>pipeline/featurization/pose_features.py</code></p>
-      <p>The feature extractor converts buffered pose history into a numerical tensor suitable for temporal inference. It normalizes pose relative to the person’s own body, includes optional box and confidence features, and can add simple motion information. The result is a time-ordered feature tensor <code>X</code> with shape <code>(T, D)</code>.</p>
+      <p>The feature extractor converts buffered pose history into a numerical tensor suitable for temporal inference. It normalizes pose relative to the person’s own body, includes geometry, confidence, velocity, and drowning-specific behavioral descriptors. The result is a time-ordered feature tensor <code>X</code> with shape <code>(T, 50)</code>.</p>
 
       <h3>Stage 5: TCN Inference</h3>
       <p><strong>Main files:</strong> <code>pipeline/models/tcn.py</code>, <code>pipeline/models/inference.py</code></p>
@@ -202,8 +202,9 @@
       <ul>
         <li><code>pipeline/utils/config.py</code> loads YAML configuration files.</li>
         <li><code>pipeline/models/registry.py</code> provides model registration for configurable training.</li>
-        <li><code>pipeline/models/lrcn.py</code> adds a lightweight placeholder LRCN model for the future baseline comparison track.</li>
-        <li><code>pipeline/models/tsm.py</code> adds the more advanced temporal-shift-based comparison model.</li>
+        <li><code>pipeline/models/tcn.py</code> defines the current primary temporal model used by the runtime inference path.</li>
+        <li><code>pipeline/models/lrcn.py</code> defines the lightweight LRCN baseline model for feature-sequence training.</li>
+        <li><code>pipeline/models/tsm.py</code> defines the lightweight TSM comparison model using temporal shifts over feature sequences.</li>
         <li><code>pipeline/training/</code> contains dataset-building, dataloading, losses, metrics, and training logic.</li>
         <li><code>pipeline/evaluation/</code> contains model evaluation and decision-calibration logic.</li>
         <li><code>scripts/build_dataset.py</code> builds processed samples from tracked video sequences.</li>
@@ -212,7 +213,33 @@
         <li><code>scripts/calibrate_decision.py</code> sweeps thresholds and produces updated decision settings.</li>
       </ul>
 
-      <h2>7. Current Status</h2>
+      <h2>7. Training And Evaluation Workflow</h2>
+      <p>The intended development workflow is:</p>
+      <ol>
+        <li>collect labeled videos</li>
+        <li>build processed feature-sequence samples with <code>scripts/build_dataset.py</code></li>
+        <li>train one model family at a time with <code>scripts/train_model.py</code></li>
+        <li>evaluate saved checkpoints with <code>scripts/evaluate_model.py</code></li>
+        <li>compare metrics across TCN, LRCN, and TSM</li>
+      </ol>
+
+      <p>Example dataset building commands:</p>
+      <pre>python scripts/build_dataset.py --video path/to/normal_video.mp4 --label 0
+python scripts/build_dataset.py --video path/to/distress_video.mp4 --label 1</pre>
+
+      <p>Example training commands:</p>
+      <pre>python scripts/train_model.py --model tcn
+python scripts/train_model.py --model lrcn
+python scripts/train_model.py --model tsm</pre>
+
+      <p>Example evaluation commands:</p>
+      <pre>python scripts/evaluate_model.py --model tcn
+python scripts/evaluate_model.py --model lrcn
+python scripts/evaluate_model.py --model tsm</pre>
+
+      <p>For a fair comparison, all three models should use the same processed dataset, the same labels, the same feature-vector version, the same split strategy, and the same evaluation metrics.</p>
+
+      <h2>8. Current Status</h2>
       <p>The repository now supports both runtime inference and formal model-development work. The real-time drowning-distress pipeline remains preserved, while the surrounding tooling now supports dataset creation, model comparison, evaluation, and calibration. The main remaining work is experimental rather than structural: preparing drowning-specific datasets, training models, validating results, calibrating thresholds, and integrating trained weights back into the runtime path.</p>
     </div>
   </div>

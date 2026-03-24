@@ -61,7 +61,7 @@ Purpose:
 
 - convert buffered pose history into model-ready feature tensors
 - normalize pose relative to body position and scale
-- optionally include box geometry, confidence, and simple velocity features
+- include geometry, confidence, velocity, and drowning-specific behavioral descriptors
 
 ### Stage 5: Temporal Inference
 
@@ -258,6 +258,134 @@ Utility layer.
 
 Adds model registration so different temporal models can be selected cleanly from scripts.
 
+### `pipeline/models/tcn.py`
+
+Defines the current primary temporal model used by the runtime inference path.
+
+### `pipeline/models/lrcn.py`
+
+Defines the lightweight LRCN baseline for sequence experiments using `(B, T, 50)` feature input.
+
+### `pipeline/models/tsm.py`
+
+Defines the lightweight TSM comparison model using temporal channel shifts over `(B, T, 50)` feature input.
+
+## Model Roles
+
+The repository currently supports three temporal model families:
+
+- `TCN`
+  This is the current runtime-oriented temporal model and remains the main reference architecture.
+- `LRCN`
+  This is the lightweight recurrent baseline model in the development pipeline.
+- `TSM`
+  This is the lightweight temporal-shift comparison model in the development pipeline.
+
+Both `LRCN` and `TSM` are development-side experimental models. They are available through the training and evaluation scripts but are not wired into the live runtime inference path.
+
+## Current Feature Vector
+
+The current Stage 4 feature extractor outputs a sequence tensor with shape `(T, 50)`.
+
+Per timestep, the 50-dimensional feature vector includes:
+
+- normalized pose coordinates for 17 keypoints
+- bounding box geometry
+- confidence features
+- bbox-center velocity
+- speed
+- acceleration
+- short-term motion variance
+- vertical velocity
+- area change rate
+- visibility ratio
+- body angle
+- stationary duration
+
+This feature vector is shared by TCN, LRCN, and TSM so model comparisons remain fair.
+
+## Training And Evaluation Workflow
+
+The intended workflow is:
+
+1. collect labeled input videos
+2. build processed sequence samples with `scripts/build_dataset.py`
+3. train one model family at a time with `scripts/train_model.py`
+4. evaluate saved checkpoints with `scripts/evaluate_model.py`
+5. compare metrics across models
+
+### 1. Build Processed Samples
+
+Example:
+
+```bash
+python scripts/build_dataset.py --video path/to/normal_video.mp4 --label 0
+python scripts/build_dataset.py --video path/to/distress_video.mp4 --label 1
+```
+
+This uses the existing tracker, buffering, and feature-extraction pipeline to export processed `.pt` samples into `data/processed/`.
+
+### 2. Train A Model
+
+Example for TCN:
+
+```bash
+python scripts/train_model.py --model tcn
+```
+
+Examples for the comparison models:
+
+```bash
+python scripts/train_model.py --model lrcn
+python scripts/train_model.py --model tsm
+```
+
+Each training run:
+
+- loads processed samples from `data/processed/`
+- builds the selected model from its config
+- trains using `configs/training/default.yaml`
+- saves the best checkpoint to `models/checkpoints/`
+- saves training metrics to `outputs/logs/`
+
+### 3. Evaluate A Trained Model
+
+Example for TCN:
+
+```bash
+python scripts/evaluate_model.py --model tcn
+```
+
+Examples for the comparison models:
+
+```bash
+python scripts/evaluate_model.py --model lrcn
+python scripts/evaluate_model.py --model tsm
+```
+
+Each evaluation run:
+
+- loads the saved checkpoint for the selected model
+- evaluates it on processed samples
+- writes results to `outputs/logs/<model>_evaluation.json`
+
+### 4. Compare Models Fairly
+
+For a fair comparison, TCN, LRCN, and TSM should all use:
+
+- the same processed dataset
+- the same labels
+- the same feature vector version
+- the same train/validation/test split
+- the same evaluation metrics
+
+The most useful metrics for this project are typically:
+
+- recall
+- precision
+- F1
+- later, inference speed and deployment cost
+
 ### `pipeline/models/lrcn.py`
 
 Adds `LRCNTemporalClassifier`, a lightweight placeholder for the future baseline comparison model.
@@ -347,10 +475,11 @@ What is already in place:
 - formal development-pipeline directories
 - config system
 - model registry
-- baseline support for TCN, CNN, and TSM experiments
+- baseline support for TCN, LRCN, and TSM experiments
 - dataset-building scripts
 - training, evaluation, and calibration modules
 - preserved legacy branch and legacy files
+- 50-dimensional drowning-oriented feature vector shared across all temporal models
 
 What still needs real experimentation:
 
