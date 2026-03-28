@@ -16,16 +16,21 @@ def build_dataset_from_tracks(
     prefix: str = "sample",
 ) -> list[Path]:
     extractor = extractor or PoseFeatureExtractor(frame_size=None)
-    labels_by_track = labels_by_track or {}
+    if labels_by_track is None:
+        labels_by_track = {}
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     saved_paths: list[Path] = []
     for idx, (track_id, seq) in enumerate(tracks.items()):
         batch = extractor.extract(list(seq))
+        try:
+            label = labels_by_track[track_id]
+        except KeyError:
+            label = 0
         payload = {
             "X": torch.tensor(batch.X, dtype=torch.float32),
-            "y": torch.tensor(float(labels_by_track.get(track_id, 0)), dtype=torch.float32),
+            "y": torch.tensor(float(label), dtype=torch.float32),
             "track_id": int(track_id),
             "meta": batch.meta,
         }
