@@ -8,7 +8,7 @@ import torch
 
 from pipeline.models import TCNBinaryClassifier
 from .losses import build_loss
-from .metrics import accuracy, precision, recall, f1
+from .metrics import accuracy, precision, recall, f1, mean_average_precision
 
 
 def _forward(model_name: str, model: torch.nn.Module, x: torch.Tensor) -> torch.Tensor:
@@ -22,7 +22,7 @@ def _probs_from_logits(logits: torch.Tensor) -> torch.Tensor:
     return torch.sigmoid(logits)
 
 
-def _evaluate(model_name: str, model: torch.nn.Module, loader, device: torch.device) -> dict[str, float]:
+def _evaluate(model_name: str, model: torch.nn.Module, loader, device: torch.device, threshold: float = 0.5) -> dict[str, float]:
     model.eval()
     all_probs = []
     all_targets = []
@@ -47,10 +47,11 @@ def _evaluate(model_name: str, model: torch.nn.Module, loader, device: torch.dev
     targets = torch.cat(all_targets) if all_targets else torch.empty(0)
     return {
         "loss": (total_loss / total_items) if total_items else 0.0,
-        "accuracy": accuracy(preds, targets),
-        "precision": precision(preds, targets),
-        "recall": recall(preds, targets),
-        "f1": f1(preds, targets),
+        "accuracy": accuracy(preds, targets, threshold),
+        "precision": precision(preds, targets, threshold),
+        "recall": recall(preds, targets, threshold),
+        "f1": f1(preds, targets, threshold),
+        "map": mean_average_precision(preds, targets),
     }
 
 
@@ -76,6 +77,7 @@ def train_model(
     best_f1 = -1.0
     history: list[dict[str, Any]] = []
     epochs = int(config.get("epochs", 20))
+    threshold = float(config.get("threshold", 0.5))
 
     for epoch in range(epochs):
         model.train()
@@ -97,10 +99,12 @@ def train_model(
             item_count += batch_size
 
         train_loss = (running_loss / item_count) if item_count else 0.0
-        val_metrics = _evaluate(model_name, model, val_loader, device)
+        train_metrics = _evaluate(model_name, model, train_loader, device, threshold)
+        val_metrics = _evaluate(model_name, model, val_loader, device, threshold)
         epoch_record = {
             "epoch": epoch + 1,
             "train_loss": train_loss,
+            "train_accuracy": train_metrics["accuracy"],
             **{f"val_{k}": v for k, v in val_metrics.items()},
         }
         history.append(epoch_record)
