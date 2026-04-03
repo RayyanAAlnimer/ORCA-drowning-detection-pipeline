@@ -97,10 +97,12 @@ def train_model(
             item_count += batch_size
 
         train_loss = (running_loss / item_count) if item_count else 0.0
+        train_metrics = _evaluate(model_name, model, train_loader, device)
         val_metrics = _evaluate(model_name, model, val_loader, device)
         epoch_record = {
             "epoch": epoch + 1,
             "train_loss": train_loss,
+            "train_accuracy": train_metrics["accuracy"],
             **{f"val_{k}": v for k, v in val_metrics.items()},
         }
         history.append(epoch_record)
