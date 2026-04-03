@@ -27,6 +27,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-dir", default="data/processed")
     parser.add_argument("--model-config", default=None)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--threshold", type=float, default=0.5)
     return parser.parse_args()
 
 
@@ -54,7 +55,7 @@ def main() -> None:
 
     dataset = TemporalSequenceDataset(args.data_dir)
     loader = DataLoader(dataset, batch_size=32, shuffle=False)
-    metrics = evaluate_model(args.model, model, loader, device=args.device)
+    metrics = evaluate_model(args.model, model, loader, device=args.device, threshold=args.threshold)
 
     out_path = Path("outputs/logs") / f"{args.model}_evaluation.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
