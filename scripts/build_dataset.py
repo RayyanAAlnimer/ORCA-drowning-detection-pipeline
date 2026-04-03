@@ -25,6 +25,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="data/processed", help="Directory for .pt outputs")
     parser.add_argument("--window-seconds", type=float, default=2.0)
     parser.add_argument("--age-out-seconds", type=float, default=1.0)
+    parser.add_argument("--augment-horizontal-flip", action="store_true", help="Export an additional horizontally mirrored sample for each saved sequence")
     return parser.parse_args()
 
 
@@ -83,6 +84,7 @@ def main() -> None:
         labels_by_track=labels_by_track,
         extractor=extractor,
         prefix=Path(args.video).stem,
+        augment_horizontal_flip=args.augment_horizontal_flip,
     )
     print(f"Saved {len(saved)} sequences to {args.output_dir}")
 
