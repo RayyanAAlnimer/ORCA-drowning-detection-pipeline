@@ -25,7 +25,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="data/processed", help="Directory for .pt outputs")
     parser.add_argument("--window-seconds", type=float, default=2.0)
     parser.add_argument("--age-out-seconds", type=float, default=1.0)
-    parser.add_argument("--augment-horizontal-flip", action="store_true", help="Export an additional horizontally mirrored sample for each saved sequence")
+    parser.add_argument("--augment-horizontal-flip", action="store_true", help="Enable horizontal-flip augmentation")
+    parser.add_argument("--augment-lighting-jitter", action="store_true", help="Enable lighting/confidence jitter augmentation")
+    parser.add_argument("--augment-occlusion", action="store_true", help="Enable partial occlusion augmentation")
+    parser.add_argument("--augmentation-probability", type=float, default=0.35, help="Probability of exporting one augmented sample for a saved sequence")
+    parser.add_argument("--augmentation-seed", type=int, default=42, help="Random seed for conservative augmentation sampling")
     return parser.parse_args()
 
 
@@ -85,6 +89,10 @@ def main() -> None:
         extractor=extractor,
         prefix=Path(args.video).stem,
         augment_horizontal_flip=args.augment_horizontal_flip,
+        augment_lighting_jitter=args.augment_lighting_jitter,
+        augment_occlusion=args.augment_occlusion,
+        augmentation_probability=args.augmentation_probability,
+        augmentation_seed=args.augmentation_seed,
     )
     print(f"Saved {len(saved)} sequences to {args.output_dir}")
 
