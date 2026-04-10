@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "dataset_dir": "data/processed/augment_20260403_65v64",
+  "total_samples": 226,
+  "train_size": 158,
+  "val_size": 34,
+  "test_size": 34,
+  "train_ratio": 0.6991150442477876,
+  "val_ratio": 0.1504424778761062,
+  "test_ratio": 0.1504424778761062
+}

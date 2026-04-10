@@ -1,0 +1,12 @@
+{
+  "best_validation_epoch": 7,
+  "best_validation_accuracy": 1.0,
+  "best_validation_precision": 1.0,
+  "best_validation_recall": 1.0,
+  "best_validation_f1": 1.0,
+  "test_accuracy": 0.8636363744735718,
+  "test_precision": 0.9,
+  "test_recall": 0.8181818181818182,
+  "test_f1": 0.8571428571428572,
+  "test_map": 0.9722549915313721
+}

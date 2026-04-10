@@ -1,0 +1,17 @@
+{
+  "best_f1": 1.0,
+  "best_val_accuracy": 1.0,
+  "best_val_precision": 1.0,
+  "best_val_recall": 1.0,
+  "test_accuracy": 0.8529411554336548,
+  "test_precision": 0.7647058823529411,
+  "test_recall": 0.9285714285714286,
+  "test_f1": 0.8387096774193549,
+  "test_map": 0.9690476059913635,
+  "confusion_matrix": {
+    "TP": 13,
+    "TN": 16,
+    "FP": 4,
+    "FN": 1
+  }
+}
