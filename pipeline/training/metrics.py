@@ -33,3 +33,24 @@ def f1(preds: torch.Tensor, targets: torch.Tensor, threshold: float = 0.5) -> fl
     p = precision(preds, targets, threshold)
     r = recall(preds, targets, threshold)
     return float((2 * p * r) / (p + r)) if (p + r) else 0.0
+
+
+def mean_average_precision(preds: torch.Tensor, targets: torch.Tensor) -> float:
+    """Average precision for this binary task; with one class, AP equals mAP."""
+    preds_f = preds.float().flatten()
+    targets_i = targets.int().flatten()
+
+    if preds_f.numel() == 0:
+        return 0.0
+
+    positive_count = int((targets_i == 1).sum().item())
+    if positive_count == 0:
+        return 0.0
+
+    order = torch.argsort(preds_f, descending=True)
+    sorted_targets = targets_i[order]
+    true_positive_cumsum = torch.cumsum((sorted_targets == 1).float(), dim=0)
+    ranks = torch.arange(1, sorted_targets.numel() + 1, dtype=torch.float32)
+    precision_at_k = true_positive_cumsum / ranks
+    ap = precision_at_k[sorted_targets == 1].sum() / float(positive_count)
+    return float(ap.item())

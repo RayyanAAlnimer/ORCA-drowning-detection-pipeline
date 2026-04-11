@@ -5,10 +5,10 @@ import json
 
 import torch
 
-from pipeline.training.metrics import accuracy, precision, recall, f1
+from pipeline.training.metrics import accuracy, precision, recall, f1, mean_average_precision
 
 
-def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str = "cpu") -> dict:
+def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str = "cpu", threshold: float = 0.5) -> dict:
     model.eval()
     device_obj = torch.device(device)
     model = model.to(device_obj)
@@ -31,10 +31,11 @@ def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str 
     preds = torch.cat(preds_all) if preds_all else torch.empty(0)
     targets = torch.cat(targets_all) if targets_all else torch.empty(0)
     return {
-        "accuracy": accuracy(preds, targets),
-        "precision": precision(preds, targets),
-        "recall": recall(preds, targets),
-        "f1": f1(preds, targets),
+        "accuracy": accuracy(preds, targets, threshold),
+        "precision": precision(preds, targets, threshold),
+        "recall": recall(preds, targets, threshold),
+        "f1": f1(preds, targets, threshold),
+        "map": mean_average_precision(preds, targets),
         "predictions": preds.tolist(),
         "targets": targets.tolist(),
     }
