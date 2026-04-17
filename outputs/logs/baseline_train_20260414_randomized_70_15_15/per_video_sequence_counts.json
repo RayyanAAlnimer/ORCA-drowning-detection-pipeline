@@ -1,0 +1,1674 @@
+[
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid39_cam4_posI.mp4",
+    "video_name": "thrashing_vid39_cam4_posI.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid21_cam3_posA.mp4",
+    "video_name": "treading_vid21_cam3_posA.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot003_vid00003.mp4",
+    "video_name": "scene0001_treading_shot003_vid00003.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0014_treading_shot001_vid00014.mp4",
+    "video_name": "scene0014_treading_shot001_vid00014.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(8).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(8).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid12_cam2_posB.mp4",
+    "video_name": "thrashing_vid12_cam2_posB.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot003_vid00008(1).mp4",
+    "video_name": "scene0002_thrashing_shot003_vid00008(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid29_cam3_posI.mp4",
+    "video_name": "treading_vid29_cam3_posI.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid4_cam1_posD.mp4",
+    "video_name": "thrashing_vid4_cam1_posD.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot003_vid00008(2).mp4",
+    "video_name": "scene0002_thrashing_shot003_vid00008(2).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot002_vid00002(2).mp4",
+    "video_name": "scene0001_treading_shot002_vid00002(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot005_vid00020.mp4",
+    "video_name": "scene0004_thrashing_shot005_vid00020.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot003_vid00008(2).mp4",
+    "video_name": "scene0002_treading_shot003_vid00008(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0011_thrashing_shot001_vid00011.mp4",
+    "video_name": "scene0011_thrashing_shot001_vid00011.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot003_vid00003(1).mp4",
+    "video_name": "scene0001_treading_shot003_vid00003(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot001_vid00003(1).mp4",
+    "video_name": "scene0003_treading_shot001_vid00003(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot004_vid00014.mp4",
+    "video_name": "scene0003_treading_shot004_vid00014.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid17_cam2_posG.mp4",
+    "video_name": "thrashing_vid17_cam2_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid29_cam3_posI.mp4",
+    "video_name": "thrashing_vid29_cam3_posI.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot002_vid00007(2).mp4",
+    "video_name": "scene0002_thrashing_shot002_vid00007(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid23_cam3_posC.mp4",
+    "video_name": "thrashing_vid23_cam3_posC.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid30_cam3_posJ.mp4",
+    "video_name": "thrashing_vid30_cam3_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0012_treading_shot001_vid00012.mp4",
+    "video_name": "scene0012_treading_shot001_vid00012.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot004_vid00004.mp4",
+    "video_name": "scene0001_thrashing_shot004_vid00004.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot001_vid00003.mp4",
+    "video_name": "scene0003_thrashing_shot001_vid00003.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot002_vid00012.mp4",
+    "video_name": "scene0003_thrashing_shot002_vid00012.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid20_cam2_posJ.mp4",
+    "video_name": "treading_vid20_cam2_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid34_cam4_posD.mp4",
+    "video_name": "treading_vid34_cam4_posD.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00006(2).mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00006(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot001_vid00006(2).mp4",
+    "video_name": "scene0002_treading_shot001_vid00006(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid38_cam4_posH.mp4",
+    "video_name": "thrashing_vid38_cam4_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot004_vid00019.mp4",
+    "video_name": "scene0004_thrashing_shot004_vid00019.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid24_cam3_posD.mp4",
+    "video_name": "thrashing_vid24_cam3_posD.mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid3_cam1_posC.mp4",
+    "video_name": "thrashing_vid3_cam1_posC.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid22_cam3_posB.mp4",
+    "video_name": "thrashing_vid22_cam3_posB.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid33_cam4_posC.mp4",
+    "video_name": "thrashing_vid33_cam4_posC.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid32_cam4_posB.mp4",
+    "video_name": "thrashing_vid32_cam4_posB.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid8_cam1_posH.mp4",
+    "video_name": "thrashing_vid8_cam1_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid13_cam2_posC.mp4",
+    "video_name": "thrashing_vid13_cam2_posC.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot001_vid00001.mp4",
+    "video_name": "scene0001_thrashing_shot001_vid00001.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0006_thrashing_shot001_vid00006.mp4",
+    "video_name": "scene0006_thrashing_shot001_vid00006.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0005_thrashing_shot001_vid00005.mp4",
+    "video_name": "scene0005_thrashing_shot001_vid00005.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot005_vid00005.mp4",
+    "video_name": "scene0001_thrashing_shot005_vid00005.mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot001_vid00011.mp4",
+    "video_name": "scene0003_treading_shot001_vid00011.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid24_cam3_posD.mp4",
+    "video_name": "treading_vid24_cam3_posD.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0010_treading_shot001_vid00010.mp4",
+    "video_name": "scene0010_treading_shot001_vid00010.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(6).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(6).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid10_cam1_posJ.mp4",
+    "video_name": "treading_vid10_cam1_posJ.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(4).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(4).mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00002(3).mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00002(3).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot005_vid00005(3).mp4",
+    "video_name": "scene0001_treading_shot005_vid00005(3).mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid32_cam4_posB.mp4",
+    "video_name": "treading_vid32_cam4_posB.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot002_vid00017(1).mp4",
+    "video_name": "scene0004_thrashing_shot002_vid00017(1).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot004_vid00009(1).mp4",
+    "video_name": "scene0002_thrashing_shot004_vid00009(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid15_cam2_posE.mp4",
+    "video_name": "thrashing_vid15_cam2_posE.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(1).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid28_cam3_posH.mp4",
+    "video_name": "thrashing_vid28_cam3_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001.mp4",
+    "video_name": "scene0001_treading_shot001_vid00001.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot004_vid00009(2).mp4",
+    "video_name": "scene0002_thrashing_shot004_vid00009(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid3_cam1_posC.mp4",
+    "video_name": "treading_vid3_cam1_posC.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot005_vid00005(1).mp4",
+    "video_name": "scene0001_treading_shot005_vid00005(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid10_cam1_posJ.mp4",
+    "video_name": "thrashing_vid10_cam1_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot003_vid00008.mp4",
+    "video_name": "scene0002_treading_shot003_vid00008.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid26_cam3_posF.mp4",
+    "video_name": "treading_vid26_cam3_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(3).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(3).mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot002_vid00002(1).mp4",
+    "video_name": "scene0001_treading_shot002_vid00002(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid15_cam2_posE.mp4",
+    "video_name": "treading_vid15_cam2_posE.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot003_vid00008.mp4",
+    "video_name": "scene0002_thrashing_shot003_vid00008.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid12_cam2_posB.mp4",
+    "video_name": "treading_vid12_cam2_posB.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0015_treading_shot001_vid00015.mp4",
+    "video_name": "scene0015_treading_shot001_vid00015.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0016_thrashing_shot001_vid00016.mp4",
+    "video_name": "scene0016_thrashing_shot001_vid00016.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot005_vid00015.mp4",
+    "video_name": "scene0003_treading_shot005_vid00015.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid27_cam3_posG.mp4",
+    "video_name": "thrashing_vid27_cam3_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot005_vid00010.mp4",
+    "video_name": "scene0002_treading_shot005_vid00010.mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid22_cam3_posB.mp4",
+    "video_name": "treading_vid22_cam3_posB.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot004_vid00009.mp4",
+    "video_name": "scene0002_treading_shot004_vid00009.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid38_cam4_posH.mp4",
+    "video_name": "treading_vid38_cam4_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot003_vid00018.mp4",
+    "video_name": "scene0004_thrashing_shot003_vid00018.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid16_cam2_posF.mp4",
+    "video_name": "treading_vid16_cam2_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid26_cam3_posF.mp4",
+    "video_name": "thrashing_vid26_cam3_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(5).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(5).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot005_vid00005.mp4",
+    "video_name": "scene0001_treading_shot005_vid00005.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0006_treading_shot001_vid00006.mp4",
+    "video_name": "scene0006_treading_shot001_vid00006.mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot005_vid00010(1).mp4",
+    "video_name": "scene0002_thrashing_shot005_vid00010(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0009_treading_shot001_vid00009.mp4",
+    "video_name": "scene0009_treading_shot001_vid00009.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid5_cam1_posE.mp4",
+    "video_name": "treading_vid5_cam1_posE.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid13_cam2_posC.mp4",
+    "video_name": "treading_vid13_cam2_posC.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot002_vid00007.mp4",
+    "video_name": "scene0002_thrashing_shot002_vid00007.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid4_cam1_posD.mp4",
+    "video_name": "treading_vid4_cam1_posD.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid31_cam4_posA.mp4",
+    "video_name": "treading_vid31_cam4_posA.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot002_vid00002.mp4",
+    "video_name": "scene0001_treading_shot002_vid00002.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot002_vid00017.mp4",
+    "video_name": "scene0004_thrashing_shot002_vid00017.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot001_vid00004(1).mp4",
+    "video_name": "scene0004_thrashing_shot001_vid00004(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot003_vid00003.mp4",
+    "video_name": "scene0001_thrashing_shot003_vid00003.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid18_cam2_posH.mp4",
+    "video_name": "thrashing_vid18_cam2_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid19_cam2_posI.mp4",
+    "video_name": "treading_vid19_cam2_posI.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0005_treading_shot001_vid00005.mp4",
+    "video_name": "scene0005_treading_shot001_vid00005.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot001_vid00003.mp4",
+    "video_name": "scene0003_treading_shot001_vid00003.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(2).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(2).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot001_vid00001(2).mp4",
+    "video_name": "scene0001_thrashing_shot001_vid00001(2).mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot003_vid00008(1).mp4",
+    "video_name": "scene0002_treading_shot003_vid00008(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0017_thrashing_shot001_vid00017.mp4",
+    "video_name": "scene0017_thrashing_shot001_vid00017.mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid23_cam3_posC.mp4",
+    "video_name": "treading_vid23_cam3_posC.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot005_vid00020(1).mp4",
+    "video_name": "scene0004_thrashing_shot005_vid00020(1).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot001_vid00016.mp4",
+    "video_name": "scene0004_thrashing_shot001_vid00016.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot001_vid00001(3).mp4",
+    "video_name": "scene0001_thrashing_shot001_vid00001(3).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot001_vid00006(1).mp4",
+    "video_name": "scene0002_treading_shot001_vid00006(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid8_cam1_posH.mp4",
+    "video_name": "treading_vid8_cam1_posH.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00002(1).mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00002(1).mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0015_thrashing_shot001_vid00015.mp4",
+    "video_name": "scene0015_thrashing_shot001_vid00015.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot004_vid00014.mp4",
+    "video_name": "scene0003_thrashing_shot004_vid00014.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0008_treading_shot001_vid00008.mp4",
+    "video_name": "scene0008_treading_shot001_vid00008.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0004_treading_shot001_vid00004(1).mp4",
+    "video_name": "scene0004_treading_shot001_vid00004(1).mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot005_vid00005(4).mp4",
+    "video_name": "scene0001_treading_shot005_vid00005(4).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot004_vid00019(1).mp4",
+    "video_name": "scene0004_thrashing_shot004_vid00019(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid39_cam4_posI.mp4",
+    "video_name": "treading_vid39_cam4_posI.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot002_vid00012.mp4",
+    "video_name": "scene0003_treading_shot002_vid00012.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot001_vid00001(1).mp4",
+    "video_name": "scene0001_thrashing_shot001_vid00001(1).mp4",
+    "sequence_count": 9
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid2_cam1_posB.mp4",
+    "video_name": "treading_vid2_cam1_posB.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid6_cam1_posF.mp4",
+    "video_name": "treading_vid6_cam1_posF.mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot003_vid00003(3).mp4",
+    "video_name": "scene0001_treading_shot003_vid00003(3).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot002_vid00007(1).mp4",
+    "video_name": "scene0002_treading_shot002_vid00007(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid19_cam2_posI.mp4",
+    "video_name": "thrashing_vid19_cam2_posI.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0019_thrashing_shot001_vid00019.mp4",
+    "video_name": "scene0019_thrashing_shot001_vid00019.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot002_vid00002.mp4",
+    "video_name": "scene0001_thrashing_shot002_vid00002.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid25_cam3_posE.mp4",
+    "video_name": "treading_vid25_cam3_posE.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0018_thrashing_shot001_vid00018.mp4",
+    "video_name": "scene0018_thrashing_shot001_vid00018.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid9_cam1_posI.mp4",
+    "video_name": "thrashing_vid9_cam1_posI.mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot004_vid00004.mp4",
+    "video_name": "scene0001_treading_shot004_vid00004.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0013_treading_shot001_vid00013.mp4",
+    "video_name": "scene0013_treading_shot001_vid00013.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid20_cam2_posJ.mp4",
+    "video_name": "thrashing_vid20_cam2_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0012_thrashing_shot001_vid00012.mp4",
+    "video_name": "scene0012_thrashing_shot001_vid00012.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot002_vid00007.mp4",
+    "video_name": "scene0002_treading_shot002_vid00007.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid11_cam2_posA.mp4",
+    "video_name": "thrashing_vid11_cam2_posA.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot003_vid00013.mp4",
+    "video_name": "scene0003_thrashing_shot003_vid00013.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot003_vid00018(1).mp4",
+    "video_name": "scene0004_thrashing_shot003_vid00018(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0007_thrashing_shot001_vid00007.mp4",
+    "video_name": "scene0007_thrashing_shot001_vid00007.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot001_vid00016(1).mp4",
+    "video_name": "scene0004_thrashing_shot001_vid00016(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0014_thrashing_shot001_vid00014.mp4",
+    "video_name": "scene0014_thrashing_shot001_vid00014.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid33_cam4_posC.mp4",
+    "video_name": "treading_vid33_cam4_posC.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0008_thrashing_shot001_vid00008.mp4",
+    "video_name": "scene0008_thrashing_shot001_vid00008.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00006.mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00006.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0005_thrashing_shot001_vid00005(1).mp4",
+    "video_name": "scene0005_thrashing_shot001_vid00005(1).mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0004_thrashing_shot001_vid00004.mp4",
+    "video_name": "scene0004_thrashing_shot001_vid00004.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot004_vid00009(1).mp4",
+    "video_name": "scene0002_treading_shot004_vid00009(1).mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid37_cam4_posG.mp4",
+    "video_name": "treading_vid37_cam4_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "train",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot005_vid00005(2).mp4",
+    "video_name": "scene0001_treading_shot005_vid00005(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot001_vid00003(1).mp4",
+    "video_name": "scene0003_thrashing_shot001_vid00003(1).mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot005_vid00010(2).mp4",
+    "video_name": "scene0002_thrashing_shot005_vid00010(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0005_treading_shot001_vid00005(1).mp4",
+    "video_name": "scene0005_treading_shot001_vid00005(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid7_cam1_posG.mp4",
+    "video_name": "treading_vid7_cam1_posG.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot001_vid00001(5).mp4",
+    "video_name": "scene0001_thrashing_shot001_vid00001(5).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0007_treading_shot001_vid00007.mp4",
+    "video_name": "scene0007_treading_shot001_vid00007.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot004_vid00004(4).mp4",
+    "video_name": "scene0001_treading_shot004_vid00004(4).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid16_cam2_posF.mp4",
+    "video_name": "thrashing_vid16_cam2_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid11_cam2_posA.mp4",
+    "video_name": "treading_vid11_cam2_posA.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0009_thrashing_shot001_vid00009.mp4",
+    "video_name": "scene0009_thrashing_shot001_vid00009.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid35_cam4_posE.mp4",
+    "video_name": "thrashing_vid35_cam4_posE.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid36_cam4_posF.mp4",
+    "video_name": "treading_vid36_cam4_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid34_cam4_posD.mp4",
+    "video_name": "thrashing_vid34_cam4_posD.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid36_cam4_posF.mp4",
+    "video_name": "thrashing_vid36_cam4_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid1_cam1_posA.mp4",
+    "video_name": "treading_vid1_cam1_posA.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid14_cam2_posD.mp4",
+    "video_name": "treading_vid14_cam2_posD.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot004_vid00009.mp4",
+    "video_name": "scene0002_thrashing_shot004_vid00009.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot004_vid00004(3).mp4",
+    "video_name": "scene0001_treading_shot004_vid00004(3).mp4",
+    "sequence_count": 2
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0003_treading_shot003_vid00013.mp4",
+    "video_name": "scene0003_treading_shot003_vid00013.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid40_cam4_posJ.mp4",
+    "video_name": "thrashing_vid40_cam4_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot003_vid00003(2).mp4",
+    "video_name": "scene0001_treading_shot003_vid00003(2).mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot001_vid00001(7).mp4",
+    "video_name": "scene0001_treading_shot001_vid00001(7).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid30_cam3_posJ.mp4",
+    "video_name": "treading_vid30_cam3_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid5_cam1_posE.mp4",
+    "video_name": "thrashing_vid5_cam1_posE.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0013_thrashing_shot001_vid00013.mp4",
+    "video_name": "scene0013_thrashing_shot001_vid00013.mp4",
+    "sequence_count": 5
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot001_vid00002.mp4",
+    "video_name": "scene0002_treading_shot001_vid00002.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0020_thrashing_shot001_vid00020.mp4",
+    "video_name": "scene0020_thrashing_shot001_vid00020.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid7_cam1_posG.mp4",
+    "video_name": "thrashing_vid7_cam1_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid21_cam3_posA.mp4",
+    "video_name": "thrashing_vid21_cam3_posA.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot002_vid00002(3).mp4",
+    "video_name": "scene0001_treading_shot002_vid00002(3).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "val",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid40_cam4_posJ.mp4",
+    "video_name": "treading_vid40_cam4_posJ.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "val",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid31_cam4_posA.mp4",
+    "video_name": "thrashing_vid31_cam4_posA.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0016_treading_shot001_vid00016.mp4",
+    "video_name": "scene0016_treading_shot001_vid00016.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid25_cam3_posE.mp4",
+    "video_name": "thrashing_vid25_cam3_posE.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot004_vid00004(2).mp4",
+    "video_name": "scene0001_treading_shot004_vid00004(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00002.mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00002.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0004_treading_shot001_vid00004.mp4",
+    "video_name": "scene0004_treading_shot001_vid00004.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00002(2).mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00002(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot001_vid00006(1).mp4",
+    "video_name": "scene0002_thrashing_shot001_vid00006(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid37_cam4_posG.mp4",
+    "video_name": "thrashing_vid37_cam4_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0001_thrashing_shot001_vid00001(4).mp4",
+    "video_name": "scene0001_thrashing_shot001_vid00001(4).mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot001_vid00006.mp4",
+    "video_name": "scene0002_treading_shot001_vid00006.mp4",
+    "sequence_count": 1
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid1_cam1_posA.mp4",
+    "video_name": "thrashing_vid1_cam1_posA.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0010_thrashing_shot001_vid00010.mp4",
+    "video_name": "scene0010_thrashing_shot001_vid00010.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid18_cam2_posH.mp4",
+    "video_name": "treading_vid18_cam2_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot002_vid00007(1).mp4",
+    "video_name": "scene0002_thrashing_shot002_vid00007(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid17_cam2_posG.mp4",
+    "video_name": "treading_vid17_cam2_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0011_treading_shot001_vid00011.mp4",
+    "video_name": "scene0011_treading_shot001_vid00011.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot002_vid00007(2).mp4",
+    "video_name": "scene0002_treading_shot002_vid00007(2).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot005_vid00015.mp4",
+    "video_name": "scene0003_thrashing_shot005_vid00015.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid6_cam1_posF.mp4",
+    "video_name": "thrashing_vid6_cam1_posF.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0003_thrashing_shot001_vid00011.mp4",
+    "video_name": "scene0003_thrashing_shot001_vid00011.mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid9_cam1_posI.mp4",
+    "video_name": "treading_vid9_cam1_posI.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot005_vid00010(1).mp4",
+    "video_name": "scene0002_treading_shot005_vid00010(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0001_treading_shot004_vid00004(1).mp4",
+    "video_name": "scene0001_treading_shot004_vid00004(1).mp4",
+    "sequence_count": 4
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid28_cam3_posH.mp4",
+    "video_name": "treading_vid28_cam3_posH.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid35_cam4_posE.mp4",
+    "video_name": "treading_vid35_cam4_posE.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/scene0002_thrashing_shot005_vid00010.mp4",
+    "video_name": "scene0002_thrashing_shot005_vid00010.mp4",
+    "sequence_count": 3
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid2_cam1_posB.mp4",
+    "video_name": "thrashing_vid2_cam1_posB.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "distress",
+    "label": 1,
+    "video": "data/raw/distress/thrashing/thrashing_vid14_cam2_posD.mp4",
+    "video_name": "thrashing_vid14_cam2_posD.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/treading_vid27_cam3_posG.mp4",
+    "video_name": "treading_vid27_cam3_posG.mp4",
+    "sequence_count": 0
+  },
+  {
+    "split": "test",
+    "class": "nondistress",
+    "label": 0,
+    "video": "data/raw/nondistress/treading/scene0002_treading_shot001_vid00002(1).mp4",
+    "video_name": "scene0002_treading_shot001_vid00002(1).mp4",
+    "sequence_count": 4
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "video_path": "/Users/rayyanalnimer/ORCA-drowning-detection-pipeline/assets/videos/real_thrashing_01.mp4",
+  "checkpoint": "/Users/rayyanalnimer/ORCA-drowning-detection-pipeline/models/checkpoints/baseline_train_20260410_randomized_70_15_15/tcn_best.pt",
+  "fps": 30.0,
+  "frame_count": 307,
+  "elapsed_seconds": 26.513850212097168,
+  "throughput_fps": 11.578853977983501,
+  "window_frames": 60,
+  "age_out_frames": 30,
+  "frames_with_yolo_detection": 125,
+  "detection_ratio": 0.40716612377850164,
+  "num_tracks_scored": 1,
+  "track_summaries": {
+    "1": {
+      "num_windows_scored": 6,
+      "max_probability": 0.9989728927612305,
+      "mean_probability": 0.9989728927612305,
+      "min_probability": 0.9989728927612305
+    }
+  },
+  "overall_max_probability": 0.9989728927612305,
+  "overall_mean_probability": 0.9989728927612305,
+  "possible_event_count": 1,
+  "confirmed_event_count": 1,
+  "possible_events": [
+    {
+      "frame_idx": 95,
+      "time_seconds": 3.1666666666666665,
+      "track_id": 1,
+      "level": "possible",
+      "raw_prob": 0.9989728927612305,
+      "smooth_prob": 0.9989728927612305
+    }
+  ],
+  "confirmed_events": [
+    {
+      "frame_idx": 115,
+      "time_seconds": 3.8333333333333335,
+      "track_id": 1,
+      "level": "confirmed",
+      "raw_prob": 0.9989728927612305,
+      "smooth_prob": 0.9989728927612305
+    }
+  ]
+}

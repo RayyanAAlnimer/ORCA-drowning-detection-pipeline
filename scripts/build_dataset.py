@@ -24,6 +24,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model", default="yolov8n-pose.pt", help="YOLO pose model path")
     parser.add_argument("--output-dir", default="data/processed", help="Directory for .pt outputs")
     parser.add_argument("--window-seconds", type=float, default=2.0)
+    parser.add_argument("--stride-frames", type=int, default=30, help="Frame stride between exported full windows")
     parser.add_argument("--age-out-seconds", type=float, default=1.0)
     return parser.parse_args()
 
@@ -51,6 +52,8 @@ def main() -> None:
 
     saved_sequences = {}
     labels_by_track = defaultdict(lambda: args.label)
+    last_saved_frame_by_track = {}
+    sample_track_id = 0
     frame_idx = 0
 
     for r0 in tracker.track_video(args.video):
@@ -74,7 +77,12 @@ def main() -> None:
 
         ready = bufman.update(observations, frame_idx)
         for track_id, seq in ready.items():
-            saved_sequences[track_id] = seq
+            last_saved = last_saved_frame_by_track.get(track_id)
+            if last_saved is None or (frame_idx - last_saved) >= max(1, int(args.stride_frames)):
+                sample_track_id += 1
+                saved_sequences[sample_track_id] = list(seq)
+                labels_by_track[sample_track_id] = args.label
+                last_saved_frame_by_track[track_id] = frame_idx
         frame_idx += 1
 
     saved = build_dataset_from_tracks(
