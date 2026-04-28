@@ -11,9 +11,22 @@ class TCNInferencer:
     Thin wrapper to run TCN on Stage-4 output.
     Expects X as numpy array of shape (T, D).
     """
-    def __init__(self, feature_dim: int, weights_path: Optional[str] = None, device: Optional[str] = None):
+    def __init__(
+        self,
+        feature_dim: int,
+        weights_path: Optional[str] = None,
+        device: Optional[str] = None,
+        channels: Optional[list[int]] = None,
+        kernel_size: int = 3,
+        dropout: float = 0.2,
+    ):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = TCNBinaryClassifier(in_channels=feature_dim).to(self.device)
+        self.model = TCNBinaryClassifier(
+            in_channels=feature_dim,
+            channels=channels or [64, 64, 128],
+            kernel_size=kernel_size,
+            dropout=dropout,
+        ).to(self.device)
         self.model.eval()
 
         if weights_path is not None:

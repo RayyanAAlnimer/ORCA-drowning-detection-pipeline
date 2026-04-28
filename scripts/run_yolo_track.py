@@ -1,3 +1,12 @@
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import cv2
 import queue
 import threading
@@ -6,6 +15,7 @@ import time
 from pipeline.tracker import PoseTracker
 from pipeline.buffering import TrackBufferManager
 from pipeline.featurization import PoseFeatureExtractor
+from pipeline.preprocessing import FramePreprocessor
 
 # Stage 5 (TCN inference)
 from pipeline.models import TCNInferencer
@@ -15,8 +25,15 @@ from pipeline.decision import DecisionManager, DecisionLevel
 from pipeline.alert_controller import AlertController
 
 MODEL_NAME = "yolov8n-pose.pt"
-VIDEO_PATH = "assets/videos/input.mp4"
+VIDEO_PATH = "assets/videos/real_thrashing_01.mp4"
 OUT_PATH = "outputs/yolo_track_out.mp4"
+
+# Lightweight demo/deployment preprocessing before YOLO pose.
+PREPROCESSING_ENABLED = True
+PREPROCESSING_MODE = "center_zoom_enhance"
+PREPROCESSING_ZOOM = 1.35
+PREPROCESSING_Y_BIAS = 0.0
+SINGLE_SWIMMER_DEMO_TRACK = True
 
 # ------------------------------
 # Stage 3 Configuration
@@ -27,7 +44,7 @@ AGE_OUT_SECONDS = 1.0     # Track buffer persistence after disappearance
 # ------------------------------
 # Stage 5 Configuration
 # ------------------------------
-TCN_WEIGHTS_PATH = None         # <-- Set to a .pt checkpoint once you have trained weights
+TCN_WEIGHTS_PATH = "models/checkpoints/mvp-v1/tcn_best.pt"
 INFER_EVERY_N_FRAMES = 5        # <-- Run TCN every N frames
 MAX_TRACKS_PER_INFER = 2        # <-- Limit how many tracks to score each infer step
 FEATURE_DIM = 50                # <-- 42 original features + 8 drowning-specific behavioral features
@@ -86,6 +103,17 @@ def main():
     )
 
     tracker = PoseTracker(MODEL_NAME)
+    preprocessor = FramePreprocessor(
+        enabled=PREPROCESSING_ENABLED,
+        mode=PREPROCESSING_MODE,
+        zoom=PREPROCESSING_ZOOM,
+        y_bias=PREPROCESSING_Y_BIAS,
+    )
+    print(
+        f"[Preprocess] enabled={PREPROCESSING_ENABLED} mode={PREPROCESSING_MODE} "
+        f"zoom={PREPROCESSING_ZOOM} y_bias={PREPROCESSING_Y_BIAS}"
+    )
+    print(f"[DemoTrack] single_swimmer_demo_track={SINGLE_SWIMMER_DEMO_TRACK}")
 
     # --------------------------------------------------
     # Stage 3: Per-Track Temporal Buffer Initialization
@@ -173,7 +201,17 @@ def main():
         # ==================================================
         # Main Processing Loop (File-based Simulation)
         # ==================================================
-        for r0 in tracker.track_video(VIDEO_PATH):
+        cap = cv2.VideoCapture(VIDEO_PATH)
+        if not cap.isOpened():
+            raise RuntimeError(f"Could not open video: {VIDEO_PATH}")
+
+        while True:
+            ok, frame = cap.read()
+            if not ok:
+                break
+
+            frame = preprocessor.apply(frame)
+            r0 = tracker.track_frame(frame)
             yielded += 1
 
             # --------------------------------------------------
@@ -181,8 +219,8 @@ def main():
             # --------------------------------------------------
             observations = []
 
-            if r0.boxes is not None and r0.boxes.id is not None and len(r0.boxes) > 0:
-                ids_t = r0.boxes.id.int()
+            if r0.boxes is not None and len(r0.boxes) > 0:
+                ids_t = r0.boxes.id.int() if r0.boxes.id is not None else None
                 xyxy_t = r0.boxes.xyxy
                 conf_t = r0.boxes.conf if hasattr(r0.boxes, "conf") else None
 
@@ -190,8 +228,15 @@ def main():
                 if getattr(r0, "keypoints", None) is not None and getattr(r0.keypoints, "data", None) is not None:
                     kpts_t = r0.keypoints.data
 
-                for i in range(len(r0.boxes)):
-                    tid = int(ids_t[i].item())
+                indices = range(len(r0.boxes))
+                if SINGLE_SWIMMER_DEMO_TRACK:
+                    areas = (xyxy_t[:, 2] - xyxy_t[:, 0]) * (xyxy_t[:, 3] - xyxy_t[:, 1])
+                    indices = [int(areas.argmax().item())]
+
+                for i in indices:
+                    if not SINGLE_SWIMMER_DEMO_TRACK and ids_t is None:
+                        continue
+                    tid = 1 if SINGLE_SWIMMER_DEMO_TRACK else int(ids_t[i].item())
                     bbox_xyxy = xyxy_t[i].tolist()
                     conf = float(conf_t[i].item()) if conf_t is not None else 1.0
 
@@ -281,13 +326,20 @@ def main():
             annotated = r0.plot()
 
             dec_snapshot = decision.snapshot()
-            if r0.boxes is not None and r0.boxes.id is not None and len(r0.boxes) > 0:
-                ids_t = r0.boxes.id.int()
+            if r0.boxes is not None and len(r0.boxes) > 0:
+                ids_t = r0.boxes.id.int() if r0.boxes.id is not None else None
                 xyxy_t = r0.boxes.xyxy
                 now_mono = time.monotonic()
 
-                for i in range(len(r0.boxes)):
-                    tid = int(ids_t[i].item())
+                indices = range(len(r0.boxes))
+                if SINGLE_SWIMMER_DEMO_TRACK:
+                    areas = (xyxy_t[:, 2] - xyxy_t[:, 0]) * (xyxy_t[:, 3] - xyxy_t[:, 1])
+                    indices = [int(areas.argmax().item())]
+
+                for i in indices:
+                    if not SINGLE_SWIMMER_DEMO_TRACK and ids_t is None:
+                        continue
+                    tid = 1 if SINGLE_SWIMMER_DEMO_TRACK else int(ids_t[i].item())
                     x1, y1, x2, y2 = [int(v) for v in xyxy_t[i].tolist()]
                     lvl, sp, _, cooldown_until = dec_snapshot.get(
                         tid, (DecisionLevel.NORMAL, 0.0, 0.0, 0.0)
@@ -335,6 +387,8 @@ def main():
         stop_event.set()
         alert_controller.shutdown(timeout=1.0)
         worker_thread.join(timeout=1.0)
+        if "cap" in locals():
+            cap.release()
         out.release()
 
     print(f"[Done] Frames processed: {yielded}")
