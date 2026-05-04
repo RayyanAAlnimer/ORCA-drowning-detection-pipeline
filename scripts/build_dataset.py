@@ -21,7 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build processed sequence dataset from tracked videos.")
     parser.add_argument("--video", required=True, help="Path to input video")
     parser.add_argument("--label", type=int, default=0, help="Binary label assigned to exported sequences")
-    parser.add_argument("--model", default="yolov8n-pose.pt", help="YOLO pose model path")
+    parser.add_argument("--model", default="models/pose/yolov8n-pose.pt", help="YOLO pose model path")
     parser.add_argument("--output-dir", default="data/processed", help="Directory for .pt outputs")
     parser.add_argument("--window-seconds", type=float, default=2.0)
     parser.add_argument("--stride-frames", type=int, default=30, help="Frame stride between exported full windows")
@@ -79,6 +79,8 @@ def main() -> None:
         for track_id, seq in ready.items():
             last_saved = last_saved_frame_by_track.get(track_id)
             if last_saved is None or (frame_idx - last_saved) >= max(1, int(args.stride_frames)):
+                # Dataset samples mirror runtime inference windows: every saved
+                # .pt file is one labeled temporal pose sequence, not a raw frame.
                 sample_track_id += 1
                 saved_sequences[sample_track_id] = list(seq)
                 labels_by_track[sample_track_id] = args.label

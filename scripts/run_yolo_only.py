@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 from pipeline.pose_estimator import PoseEstimator
 from pipeline.visualizer import draw_results
 
-MODEL_NAME = "yolov8n-pose.pt"
+MODEL_NAME = "models/pose/yolov8n-pose.pt"
 DEFAULT_INPUT_PATH = "data/raw/input.mp4"
 DEFAULT_OUTPUT_PATH = "outputs/yolo_only_out.mp4"
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}

@@ -99,6 +99,8 @@ def train_model(
             item_count += batch_size
 
         train_loss = (running_loss / item_count) if item_count else 0.0
+        # Record both training and validation metrics each epoch so the report can
+        # show convergence, overfitting, and generalization behavior.
         train_metrics = _evaluate(model_name, model, train_loader, device, threshold)
         val_metrics = _evaluate(model_name, model, val_loader, device, threshold)
         epoch_record = {
@@ -110,6 +112,8 @@ def train_model(
         history.append(epoch_record)
 
         if val_metrics["f1"] > best_f1:
+            # F1 is used for checkpoint selection because the task cares about
+            # both false positives and missed distress cases.
             best_f1 = val_metrics["f1"]
             torch.save(
                 {

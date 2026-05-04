@@ -24,7 +24,7 @@ from pipeline.models import TCNInferencer
 from pipeline.decision import DecisionManager, DecisionLevel
 from pipeline.alert_controller import AlertController
 
-MODEL_NAME = "yolov8n-pose.pt"
+MODEL_NAME = "models/pose/yolov8n-pose.pt"
 VIDEO_PATH = "assets/videos/real_thrashing_01.mp4"
 OUT_PATH = "outputs/yolo_track_out.mp4"
 
@@ -173,6 +173,8 @@ def main():
     stop_event = threading.Event()
 
     def inference_worker():
+        # TCN inference runs off the main frame loop. This keeps video processing
+        # responsive even if the classifier takes longer on a particular window.
         while not stop_event.is_set():
             try:
                 tid, X, frame_id = inference_queue.get(timeout=0.1)
@@ -255,6 +257,8 @@ def main():
             # --------------------------------------------------
             # Stage 3: Update Temporal Buffers
             # --------------------------------------------------
+            # Frame-level observations are now grouped into per-track two-second
+            # histories. The classifier only sees a track once this window is full.
             ready_sequences = bufman.update(observations, frame_idx)
 
             # --------------------------------------------------
@@ -264,6 +268,8 @@ def main():
                 for j, (tid, seq) in enumerate(ready_sequences.items()):
                     if j >= MAX_TRACKS_PER_INFER:
                         break
+                    # Feature extraction converts the buffered keypoints into the
+                    # same 50D representation used during training.
                     batch = extractor.extract(seq)
                     if not inference_queue.full():
                         inference_queue.put((tid, batch.X, frame_idx))
@@ -287,6 +293,8 @@ def main():
                 result_queue.task_done()
 
             if probs_batch:
+                # The raw TCN probabilities are intentionally not alerts yet.
+                # Stage 6 smooths and gates them before escalating to confirmed.
                 events = decision.update_batch(probs_batch, ts=latest_ts)
 
                 if DEBUG_STAGE6 and events:

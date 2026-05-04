@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 *.pyo
+.pytest_cache/
+.mypy_cache/
 
 # Virtual environments
 .venv/
@@ -10,6 +12,9 @@ venv/
 # Mac
 .DS_Store
 
+# Local plotting/cache artifacts
+.matplotlib-cache/
+
 # Models
 *.pt
 *.pth
@@ -17,6 +22,15 @@ venv/
 # Data
 data/
 datasets/
+
+# Large local demo media stays on the workstation; keep lightweight docs/readmes tracked.
+assets/videos/
+
+# Deployment bundle is maintained separately from the main presentation repo.
+deploy/
+
+# Generated experiment/runtime outputs
+outputs/
 
 # VS Code
 .vscode/

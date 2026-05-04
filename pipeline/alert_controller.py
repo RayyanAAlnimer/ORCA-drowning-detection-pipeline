@@ -72,6 +72,8 @@ class AlertController:
         )
 
         with self._lock:
+            # DecisionManager already has cooldown logic; this duplicate check is
+            # a second guard so external alert channels are not spammed.
             last_ts = self._last_alert_ts_by_track.get(event.track_id)
             if last_ts is not None and (event.timestamp - last_ts) < self.min_repeat_interval_seconds:
                 return False
@@ -111,6 +113,8 @@ class AlertController:
                 self._queue.task_done()
 
     def _dispatch(self, event: AlertEvent) -> None:
+        # Dispatch happens on a worker thread so video processing does not block
+        # on sound, webhook I/O, or future hardware integrations.
         if self.enable_console:
             self._emit_console(event)
 

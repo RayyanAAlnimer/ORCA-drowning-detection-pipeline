@@ -20,6 +20,8 @@ def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str 
             x = x.to(device_obj)
             y = y.to(device_obj)
             if model_name == "tcn":
+                # Dataloader returns (batch, time, features); TCN expects
+                # (batch, features, time), matching the runtime inferencer.
                 logits = model(x.transpose(1, 2))
             else:
                 logits = model(x)
@@ -30,6 +32,8 @@ def evaluate_model(model_name: str, model: torch.nn.Module, loader, device: str 
 
     preds = torch.cat(preds_all) if preds_all else torch.empty(0)
     targets = torch.cat(targets_all) if targets_all else torch.empty(0)
+    # Keep raw probabilities and targets in the JSON so confusion matrices,
+    # threshold experiments, and report plots can be reproduced later.
     return {
         "accuracy": accuracy(preds, targets, threshold),
         "precision": precision(preds, targets, threshold),

@@ -122,6 +122,9 @@ class PoseFeatureExtractor:
         seq: list of FrameFeature from Stage 3
         Returns: FeatureBatch(X, mask, meta)
         """
+        # This is the main bridge from computer vision to machine learning:
+        # raw boxes/keypoints are converted into a compact (T, 50) sequence that
+        # the temporal classifier can learn from.
         T = len(seq)
         if T == 0:
             return FeatureBatch(
@@ -148,7 +151,9 @@ class PoseFeatureExtractor:
             has_hips = not (np.all(lh == 0) or np.all(rh == 0))
             has_shoulders = not (np.all(ls == 0) or np.all(rs == 0))
 
-            # Normalize pose: (x,y)-> (x-center)/scale
+            # Normalize pose: (x,y)-> (x-center)/scale. This makes the model less
+            # dependent on where the swimmer appears in the frame or how large
+            # the person is due to camera distance.
             xy_norm = (xy - center[None, :]) / scale  # (K,2)
             pose_flat = xy_norm.reshape(-1).astype(np.float32)  # (2K,)
 
@@ -242,6 +247,8 @@ class PoseFeatureExtractor:
             prev_prev_bbox = prev_bbox
             prev_bbox = bbox
 
+        # For the current configuration D is 50:
+        # 34 pose coordinates + 4 bbox + 2 confidence + 2 velocity + 8 behavior cues.
         X = np.stack(feats, axis=0).astype(np.float32)  # (T, D)
 
         meta = {

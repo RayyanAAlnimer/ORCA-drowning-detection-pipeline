@@ -1,4 +1,4 @@
-from ultralytics import YOLO 
+from ultralytics import YOLO
 
 class PoseEstimator:
     def __init__(self, model_path=str):

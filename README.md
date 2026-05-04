@@ -24,6 +24,11 @@ The main runtime entry points are:
 - `scripts/run_yolo_cam.py` for live webcam inference
 - `scripts/run_yolo_track.py` for video-file inference
 
+Presenter guides:
+
+- `docs/code_walkthrough_map.md` gives the recommended code-reading order.
+- `docs/recording_script_code_walkthrough.md` is a spoken script for recording a code walkthrough.
+
 ## Runtime Stages
 
 ### Stage 1 and Stage 2: Pose Detection and Tracking
@@ -78,8 +83,8 @@ Purpose:
 Current note:
 
 - the runtime inference path is implemented
-- trained drowning-specific weights are not yet fully integrated
-- current probabilities should still be treated as placeholders until training is completed
+- the MVP-v1 TCN checkpoint is the current primary runtime model for demo inference
+- the TCN probability is treated as an input to the decision layer, not as an instant alert by itself
 
 ### Stage 6: Decision Logic
 
@@ -93,6 +98,26 @@ Purpose:
 - apply hysteresis thresholds
 - enforce hold time and cooldown behavior
 - emit stable decision states: `normal`, `possible`, `confirmed`
+
+Current demo thresholds:
+
+- `possible_threshold: 0.60`
+- `confirmed_threshold: 0.80`
+- `ema_alpha: 0.30`
+- `hold_time: 1.0` second
+- `cooldown: 5.0` seconds
+
+The lower calibrated thresholds previously used in `configs/decision/thresholds.yaml`
+made the system more sensitive, but they also increased the chance of confusing
+normal swimming or treading with distress. For the MVP-v1 demo, the runtime uses a
+more conservative confirmation threshold: a swimmer is first marked as `possible`
+when the smoothed distress probability reaches 60%, and is only marked as
+`confirmed` when the smoothed probability reaches 80% and remains there for about
+one second.
+
+This design intentionally avoids triggering an alert from a single high frame or
+short noisy movement. It favors sustained high-confidence distress behavior, which
+reduces false positives during non-distress clips.
 
 ### Alert Layer
 
@@ -125,11 +150,16 @@ This new layer supports:
 ORCA-drowning-detection-pipeline/
 ├── README.md
 ├── .gitignore
-├── yolov8n-pose.pt
-├── demo.gif
 │
 ├── docs/
+│   ├── code_walkthrough_map.md
+│   ├── recording_script_code_walkthrough.md
 │   └── pipeline_explanation.html
+│
+├── assets/
+│   ├── media/
+│   │   └── demo.gif
+│   └── videos/
 │
 ├── configs/
 │   ├── model/
@@ -137,7 +167,8 @@ ORCA-drowning-detection-pipeline/
 │   │   ├── lrcn.yaml
 │   │   └── tsm.yaml
 │   ├── training/
-│   │   └── default.yaml
+│   │   ├── default.yaml
+│   │   └── epochs_50.yaml
 │   └── decision/
 │       └── thresholds.yaml
 │
@@ -148,6 +179,9 @@ ORCA-drowning-detection-pipeline/
 │   └── samples/
 │
 ├── models/
+│   ├── pose/
+│   │   ├── yolov8n-pose.pt
+│   │   └── yolo11n-pose.pt
 │   ├── checkpoints/
 │   └── exported/
 │
@@ -245,6 +279,7 @@ Organizes data across development stages.
 
 Stores trained artifacts.
 
+- `models/pose/` for YOLO pose model weights used before temporal classification
 - `models/checkpoints/` for saved checkpoints during training
 - `models/exported/` for deployment-ready or converted model outputs later
 

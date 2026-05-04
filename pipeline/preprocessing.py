@@ -22,6 +22,8 @@ class FramePreprocessor:
     def apply(self, frame):
         if not self.enabled:
             return frame
+        # Keep preprocessing lightweight: every mode returns a normal BGR frame so
+        # the YOLO pose stage does not need to know whether enhancement happened.
         if self.mode == "enhance":
             return self._enhance(frame)
         if self.mode == "center_zoom_enhance":
@@ -31,6 +33,8 @@ class FramePreprocessor:
         raise ValueError(f"Unknown preprocessing mode: {self.mode}")
 
     def _enhance(self, frame):
+        # CLAHE improves local contrast under glare/low contrast, while the
+        # unsharp blend restores edges that the pose detector relies on.
         lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
         l_chan, a_chan, b_chan = cv2.split(lab)
         l_chan = self._clahe.apply(l_chan)
@@ -43,6 +47,8 @@ class FramePreprocessor:
     def _crop_zoom(frame, zoom: float, y_bias: float):
         if zoom <= 1.0:
             return frame
+        # Crop then resize back to the original resolution; downstream code sees
+        # the same frame size, but the swimmer occupies more pixels.
         h, w = frame.shape[:2]
         crop_w = max(1, int(round(w / zoom)))
         crop_h = max(1, int(round(h / zoom)))

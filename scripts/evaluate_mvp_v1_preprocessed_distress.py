@@ -23,7 +23,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pattern", default="IMG*.mp4")
     parser.add_argument("--output-dir", default="outputs/logs/mvp_v1_preprocessed_distress_eval")
     parser.add_argument("--checkpoint", default="models/checkpoints/mvp-v1/tcn_best.pt")
-    parser.add_argument("--yolo-model", default="yolov8n-pose.pt")
+    parser.add_argument("--yolo-model", default="models/pose/yolov8n-pose.pt")
     parser.add_argument("--threshold", type=float, default=0.5)
     return parser.parse_args()
 

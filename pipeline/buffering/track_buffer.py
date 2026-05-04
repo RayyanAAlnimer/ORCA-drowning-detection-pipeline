@@ -50,7 +50,8 @@ class TrackBufferManager:
           ready_sequences: dict[track_id] = list[FrameFeature] (length == window)
           Only for tracks whose buffer has filled to the window length.
         """
-        # Add current-frame observations
+        # This is where frame-wise detections become temporal data: every track ID
+        # owns its own rolling deque, so swimmer histories do not get mixed.
         for obs in observations:
             tid = int(obs["track_id"])
 
@@ -68,7 +69,9 @@ class TrackBufferManager:
             self.buffers[tid].append(feat)
             self.last_seen[tid] = int(frame_idx)
 
-        # Age-out dead tracks
+        # If a swimmer disappears briefly, keep the buffer for age_out frames.
+        # If they stay missing longer, drop stale state to prevent old motion from
+        # contaminating a future detection with the same ID.
         if self.age_out >= 0:
             to_delete = []
             for tid, last in self.last_seen.items():
@@ -79,7 +82,8 @@ class TrackBufferManager:
                 self.buffers.pop(tid, None)
                 self.last_seen.pop(tid, None)
 
-        # Emit ready sequences (full windows)
+        # Only full windows are emitted. This protects Stage 4/5 from making a
+        # distress prediction before enough movement history exists.
         ready: Dict[int, List[FrameFeature]] = {}
         for tid, buf in self.buffers.items():
             if len(buf) >= self.window:

@@ -100,7 +100,8 @@ class DecisionManager:
                     st = TrackDecisionState()
                     self._states[tid] = st
 
-                # EMA smoothing
+                # EMA smoothing dampens one-off spikes from the TCN. The alert
+                # layer should react to sustained behavior, not a single noisy window.
                 if not st.initialized:
                     st.smooth_prob = raw_clamped
                     st.initialized = True
@@ -136,7 +137,8 @@ class DecisionManager:
                         new_level = DecisionLevel.NORMAL
                         st.above_confirm_since = None
                     else:
-                        # candidate for confirm
+                        # Candidate for confirmation: the model must stay above
+                        # confirm_th for hold_seconds before an alert is allowed.
                         if sp >= self.confirm_th and not in_cooldown:
                             if st.above_confirm_since is None:
                                 st.above_confirm_since = now
@@ -171,7 +173,8 @@ class DecisionManager:
                         )
                     )
 
-                # If we just entered CONFIRMED, start cooldown immediately
+                # If we just entered CONFIRMED, start cooldown immediately so the
+                # same event does not generate repeated alerts every frame.
                 if prev_level != DecisionLevel.CONFIRMED and new_level == DecisionLevel.CONFIRMED:
                     st.cooldown_until = now + self.cooldown_seconds
                 

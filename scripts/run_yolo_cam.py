@@ -32,7 +32,7 @@ from pipeline.alert_controller import AlertController
 # =========================
 # USER CONFIG (edit here)
 # =========================
-MODEL_NAME = "yolov8n-pose.pt"   # <-- Change YOLO pose model here (e.g., yolov11n-pose.pt)
+MODEL_NAME = "models/pose/yolov8n-pose.pt"   # <-- Change YOLO pose model here if needed
 CAMERA_INDEX = 0                # <-- 0 = default webcam, try 1 if you have multiple
 DISPLAY_SCALE = 1.0             # <-- e.g., 0.75 to reduce load (helps FPS)
 WRITE_OUTPUT = False            # <-- True to save annotated video
@@ -59,11 +59,11 @@ TCN_WEIGHTS_PATH = "models/checkpoints/mvp-v1/tcn_best.pt"
 INFER_EVERY_N_FRAMES = 5        # <-- Run TCN every N frames to keep realtime smooth
 MAX_TRACKS_PER_INFER = 2        # <-- Limit how many tracks to score each infer step
 
-# Stage 6 (decision) -- thresholds are low now for testing, adjust later based on TCN performance
+# Stage 6 (decision) -- conservative MVP thresholds used in the presentation/demo.
 DECISION_EMA_ALPHA = 0.30
-DECISION_POSSIBLE_TH = 0.10
-DECISION_CONFIRM_TH = 0.20
-DECISION_HOLD_SEC = 0.2
+DECISION_POSSIBLE_TH = 0.60
+DECISION_CONFIRM_TH = 0.80
+DECISION_HOLD_SEC = 1.0
 DECISION_COOLDOWN_SEC = 5.0
 DECISION_STALE_SEC = 3.0
 
@@ -202,6 +202,8 @@ def main():
     result_queue: "queue.Queue[tuple[int, float, int, float]]" = queue.Queue(maxsize=50)
 
     def inference_worker():
+        # Run TCN scoring in the background so camera capture/display remains
+        # responsive while temporal windows are being classified.
         while not stop_event.is_set():
             try:
                 tid, X, frame_id = inference_queue.get(timeout=0.1)
@@ -271,9 +273,12 @@ def main():
             frame = preprocessor.apply(frame)
 
             # Stage 2: pose + tracking
+            # YOLO turns the current frame into tracked person boxes/keypoints.
             r0 = tracker.track_frame(frame)
 
             # Stage 3: observations
+            # Convert the Ultralytics result object into the small dict format
+            # expected by TrackBufferManager.
             observations = []
             if r0.boxes is not None and len(r0.boxes) > 0:
                 ids_t = r0.boxes.id.int() if r0.boxes.id is not None else None
@@ -312,6 +317,8 @@ def main():
                 for j, (tid, seq) in enumerate(ready_sequences.items()):
                     if j >= MAX_TRACKS_PER_INFER:
                         break
+                    # Stage 4 mirrors training-time preprocessing: the live
+                    # buffered keypoints become the same 50D TCN feature sequence.
                     batch = extractor.extract(seq)
                     if not inference_queue.full():
                         inference_queue.put((tid, batch.X, frame_idx))
@@ -335,6 +342,8 @@ def main():
                 result_queue.task_done()
 
             if probs_batch:
+                # Stage 6 is the safety gate. The model probability becomes an
+                # alert only after smoothing, thresholding, hold time, and cooldown.
                 events = decision.update_batch(probs_batch, ts=latest_ts)
 
                 # ==========================================================

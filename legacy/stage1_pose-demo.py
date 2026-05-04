@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 # 1) Load a YOLO pose model (start with a small one so it runs on Mac CPU)
 # You can later swap to YOLOv11 pose weights once you have them.
-MODEL_NAME = "yolov8n-pose.pt"
+MODEL_NAME = "models/pose/yolov8n-pose.pt"
 
 # 2) Input video (use the repo's demo.mp4 first so we can test)
 VIDEO_PATH = "demo_from_gif.mp4" # plug a video to test
@@ -57,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

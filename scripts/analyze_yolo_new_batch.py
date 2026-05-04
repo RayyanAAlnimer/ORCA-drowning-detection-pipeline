@@ -19,7 +19,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Analyze YOLO detection continuity on the new raw batch.")
     parser.add_argument('--distress-dir', default='data/raw/distress/thrashing')
     parser.add_argument('--nondistress-dir', default='data/raw/nondistress/treading')
-    parser.add_argument('--model', default='yolov8n-pose.pt')
+    parser.add_argument('--model', default='models/pose/yolov8n-pose.pt')
     parser.add_argument('--window-seconds', type=float, default=2.0)
     parser.add_argument('--fps', type=float, default=30.0)
     parser.add_argument('--age-out-seconds', type=float, default=1.0)

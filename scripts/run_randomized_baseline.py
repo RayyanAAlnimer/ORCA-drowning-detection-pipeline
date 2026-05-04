@@ -37,7 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--distress-dir', default='data/raw/distress/thrashing')
     parser.add_argument('--nondistress-dir', default='data/raw/nondistress/treading')
     parser.add_argument('--model', default='tcn', choices=['tcn'])
-    parser.add_argument('--yolo-model', default='yolov8n-pose.pt')
+    parser.add_argument('--yolo-model', default='models/pose/yolov8n-pose.pt')
     parser.add_argument('--model-config', default='configs/model/tcn.yaml')
     parser.add_argument('--training-config', default='configs/training/default.yaml')
     parser.add_argument('--window-seconds', type=float, default=2.0)

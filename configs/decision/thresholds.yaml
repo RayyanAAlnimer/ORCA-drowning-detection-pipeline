@@ -1,5 +1,5 @@
-possible_threshold: 0.5
-confirmed_threshold: 0.7
+possible_threshold: 0.6
+confirmed_threshold: 0.8
 ema_alpha: 0.3
-hold_time: 1.5
-cooldown: 3.0
+hold_time: 1.0
+cooldown: 5.0

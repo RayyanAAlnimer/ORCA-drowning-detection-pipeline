@@ -23,6 +23,8 @@ def build_dataset_from_tracks(
 
     saved_paths: list[Path] = []
     for idx, (track_id, seq) in enumerate(tracks.items()):
+        # Training samples use the same feature extractor as runtime inference,
+        # so the model learns from exactly the representation it will see live.
         batch = extractor.extract(list(seq))
         try:
             label = labels_by_track[track_id]

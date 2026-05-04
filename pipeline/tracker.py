@@ -13,6 +13,8 @@ class PoseTracker:
     """
 
     def __init__(self, model_path: str, conf: float = 0.25, iou: float = 0.5):
+        # This is the first learned model in the runtime path: it converts pixels
+        # into boxes, keypoints, confidences, and tracker IDs.
         self.model = YOLO(model_path)
         self.conf = conf
         self.iou = iou
@@ -31,6 +33,8 @@ class PoseTracker:
             verbose=False,
             conf=self.conf,
             iou=self.iou,
+            # persist=True is the handoff from detection to tracking: YOLO keeps
+            # identities alive across frames so Stage 3 can build per-person history.
             persist=True
         )
 
@@ -50,6 +54,8 @@ class PoseTracker:
             verbose=False,
             conf=self.conf,
             iou=self.iou,
+            # The camera loop calls this once per frame; persistence keeps IDs
+            # stable between calls instead of treating each frame independently.
             persist=True
         )
 

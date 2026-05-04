@@ -38,13 +38,16 @@ class TCNInferencer:
 
     @torch.no_grad()
     def predict_proba(self, X: np.ndarray) -> float:
-        # X: (T, D) -> (1, D, T)
+        # Stage 4 emits X as (time, features). The TCN expects channels-first
+        # temporal input, so we reshape to (batch, features, time).
         if X.ndim != 2:
             raise ValueError(f"Expected X shape (T, D), got {X.shape}")
 
         x = torch.from_numpy(X.astype(np.float32)).to(self.device)  # (T, D)
         x = x.transpose(0, 1).unsqueeze(0)                           # (1, D, T)
 
+        # The TCN returns a logit; sigmoid converts it into the distress
+        # probability consumed by Stage 6 decision logic.
         logits = self.model(x)                                       # (1,)
         p = torch.sigmoid(logits).item()
         return float(p)
